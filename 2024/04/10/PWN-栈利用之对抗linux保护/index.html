@@ -24,7 +24,7 @@
 
   
 
-  <title>pwn基础知识 | LittleHamster</title>
+  <title>PWN --栈利用之对抗linux保护 | LittleHamster</title>
 
   
 
@@ -101,11 +101,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">pwn基础知识</h1>
+          <h1 class="title-wrap">PWN --栈利用之对抗linux保护</h1>
           <h2 class="title-sub-wrap">
             <strong>LittleHamster1</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-03-24T13:17:10.000Z" itemprop="datePublished">2024-03-24</time>
+            <time  class="article-date" datetime="2024-04-10T09:50:07.000Z" itemprop="datePublished">2024-04-10</time>
           </h2>
           
           
@@ -138,87 +138,101 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="pwn基础知识"><a href="#pwn基础知识" class="headerlink" title="pwn基础知识"></a>pwn基础知识</h1><h2 id="程序的装载和虚拟内存"><a href="#程序的装载和虚拟内存" class="headerlink" title="程序的装载和虚拟内存"></a>程序的装载和虚拟内存</h2><p><img src="https://img2.imgtp.com/2024/03/24/3ShZj9mW.png" alt="程序内存装载.png"></p>
+        <h1 id="栈利用之对抗Linux保护"><a href="#栈利用之对抗Linux保护" class="headerlink" title="栈利用之对抗Linux保护"></a>栈利用之对抗Linux保护</h1><h2 id="一、Linux保护技术概述"><a href="#一、Linux保护技术概述" class="headerlink" title="一、Linux保护技术概述"></a>一、Linux保护技术概述</h2><blockquote>
+<p>Linux常见的保护机制：</p>
+<p>1、Canary</p>
+<p>2、Fortify</p>
+<p>3、NX&#x2F;DEP</p>
+<p>4、PIE&#x2F;ALSR</p>
+<p>5、RELRO</p>
+</blockquote>
+<h3 id="1、NX保护（windows下为DEP）"><a href="#1、NX保护（windows下为DEP）" class="headerlink" title="1、NX保护（windows下为DEP）"></a>1、NX保护（windows下为DEP）</h3><blockquote>
+<p>作用：将数据（堆、栈）所在内存页标识为不可执行，当程序溢出成功转入shellcode时，程序会尝试在数据页面上执行指令，此时CPU就会抛出异常，而不是去执行恶意指令。</p>
+</blockquote>
+<p>编译选项</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">关闭：-z execstack</span><br><span class="line">开启：-z noexecstack</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、PIE保护"><a href="#2、PIE保护" class="headerlink" title="2、PIE保护"></a>2、PIE保护</h3><blockquote>
+<p>作用：使得程序地址空间分布随机化，增加ROP等利用难度。（因为地址都是不确定的了）</p>
+</blockquote>
+<p>编译选项</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">关闭：-no-pie</span><br><span class="line">开启：-pie -fPIC</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、Canary保护"><a href="#3、Canary保护" class="headerlink" title="3、Canary保护"></a>3、Canary保护</h3><blockquote>
+<p>作用：函数开始执行的时候会先往栈里插入Canary值，当函数真正返回的时候会验证canary值是否合法，如果不合法就停止程序运行。可以防止栈溢出覆盖返回地址</p>
+</blockquote>
+<p>编译选项</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">关闭：-fno-stack-protector</span><br><span class="line">启用（只为局部变量中含有char的函数插入保护代码）：-fstack-protector</span><br><span class="line">启用（为所有函数插入保护代码）：-fstack-protector-all</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、Fortify保护"><a href="#4、Fortify保护" class="headerlink" title="4、Fortify保护"></a>4、Fortify保护</h3><blockquote>
+<p>作用：主要用来防止格式化字符串漏洞。包含%n的格式化字符串不能位于程序内存中的可写地址。当使用位置参数时，必须使用范围内的所有参数（如果要使用%7$x，必须使用1<code>$</code>,2<code>$</code>,3<code>$</code>,4<code>$</code>,5<code>$</code>,6<code>$</code>）</p>
+</blockquote>
+<p>编译选项</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">关闭：-D_FORTIFY_SOURCE=0</span><br><span class="line">开启：-D_FORTIFY_SOURCE=2</span><br></pre></td></tr></table></figure>
+
+<h3 id="5、RELRO保护"><a href="#5、RELRO保护" class="headerlink" title="5、RELRO保护"></a>5、RELRO保护</h3><blockquote>
+<p>作用：设置符号重定向表为<mark>只读</mark>并在程序启动时就解析并绑定所有动态符号，从而减少对GOT(Global Offset Table)表的攻击</p>
+</blockquote>
+<p>编译选项</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">开启（部分）：-z lazy</span><br><span class="line">开启（完全）：-z now</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、对抗NX-DEP保护技术"><a href="#二、对抗NX-DEP保护技术" class="headerlink" title="二、对抗NX&#x2F;DEP保护技术"></a>二、对抗NX&#x2F;DEP保护技术</h2><h4 id="ROP"><a href="#ROP" class="headerlink" title="ROP"></a>ROP</h4><blockquote>
+<p>目前主要的绕过方法就是ROP（Return Oriented Programming）技术，其主要思想是在栈溢出的基础上，利用<mark>程序中已有的小片段(gadgets)</mark>来改变某些寄存器或者变量的值，从而<mark>控制程序的执行流程</mark>。所谓gadgets就是以<mark>ret结尾</mark>的指令序列，通过这些序列，我们可以修改某些地址的内容，方便连续地控制程序的执行流程</p>
+</blockquote>
+<h5 id="条件："><a href="#条件：" class="headerlink" title="条件："></a>条件：</h5><ul>
+<li>程序存在栈溢出，并且可以控制返回地址</li>
+<li>可以找到满足条件的gadgets以及对应gadgets的地址。（如果gadgets每次的地址都是不固定的，那我们就需要想办法动态获取对应的地址了。）</li>
+</ul>
+<h2 id="三、对抗ASLR-PIE保护技术"><a href="#三、对抗ASLR-PIE保护技术" class="headerlink" title="三、对抗ASLR&#x2F;PIE保护技术"></a>三、对抗ASLR&#x2F;PIE保护技术</h2><blockquote>
+<p>延迟绑定机制：在第一次调用某个库函数的时候去解析它的地址并存入got表中，下次调用的时候直接从got表中拿不用重复解析，这样做提高了动态链接的效率</p>
+</blockquote>
+<h4 id="ROP（ret2libc）"><a href="#ROP（ret2libc）" class="headerlink" title="ROP（ret2libc）"></a>ROP（ret2libc）</h4><blockquote>
+<p>泄露GOT表中某个函数的libc地址</p>
+<p>在libc中找到system，&#x2F;bin&#x2F;sh和这个函数的相对偏移</p>
+<p>得到system的地址和‘&#x2F;bin&#x2F;sh’的地址</p>
+<p>构造ROP链，成功利用</p>
+</blockquote>
+<h2 id="四、对抗Canary保护技术"><a href="#四、对抗Canary保护技术" class="headerlink" title="四、对抗Canary保护技术"></a>四、对抗Canary保护技术</h2><h3 id="1、泄露Canary值"><a href="#1、泄露Canary值" class="headerlink" title="1、泄露Canary值"></a>1、泄露Canary值</h3><h3 id="2、覆写副本值-–需要进行位置的爆破"><a href="#2、覆写副本值-–需要进行位置的爆破" class="headerlink" title="2、覆写副本值  –需要进行位置的爆破"></a>2、覆写副本值  –需要进行位置的爆破</h3><h3 id="3、劫持stack-chk-fail"><a href="#3、劫持stack-chk-fail" class="headerlink" title="3、劫持stack_chk_fail"></a>3、劫持stack_chk_fail</h3><blockquote>
+<p>可以修改全局偏移表（GOT）中存储的stack_chk_fail函数地址，便可以在触发canary检查失败时，跳转到指定的地址继续执行</p>
+</blockquote>
+<h3 id="4、stack-smashing"><a href="#4、stack-smashing" class="headerlink" title="4、stack smashing"></a>4、stack smashing</h3><blockquote>
+<p>当canary被覆盖后，会call到_stack_chk_fail打印argv[0]这个指针指向的字符串，默认是程序的名字</p>
+<p>如果我们把它覆盖为其他的地址时，它就会把其他内存地址的信息打印出来</p>
+</blockquote>
+<h3 id="5、BROP（逐字节爆破）"><a href="#5、BROP（逐字节爆破）" class="headerlink" title="5、BROP（逐字节爆破）"></a>5、BROP（逐字节爆破）</h3><blockquote>
+<p>攻击条件：</p>
+<p>（1）远程程序必须先存在一个已知的stack overflow的漏洞，而且攻击者知道如何触发这个漏洞；</p>
+<p>（2）服务器进程在crash之后会重新复活，并且复活的进程不会被r-rand（意味着虽然有ASLR的保护，但是复活的进程和之前的进程的地址随机化与canary是一样的）。这个需求其实是合理的，因为当前像nginx，MySQL，Apache，OpenSSH，Samba等服务器都符合这个共性。</p>
+</blockquote>
+<h2 id="五、拓展"><a href="#五、拓展" class="headerlink" title="五、拓展"></a>五、拓展</h2><h3 id="1、溢出长度不够？"><a href="#1、溢出长度不够？" class="headerlink" title="1、溢出长度不够？"></a>1、溢出长度不够？</h3><ul>
+<li>栈劫持（stack povit）</li>
+</ul>
+<h3 id="2、SROP"><a href="#2、SROP" class="headerlink" title="2、SROP"></a>2、SROP</h3><blockquote>
+<p>SROP的全称是Sigreturn Oriented Programming。在这里<code>sigreturn</code>是一个系统调用，它在unix系统发生gignal的时候会被间接地调用</p>
+</blockquote>
 <blockquote>
-<p>64位虚拟内存和32位虚拟内存之间的对比</p>
+<p>内存会为该进程保存相应的上下文，主要是将所有寄存器压入栈中，以及压入signal信息，以及指向sigreturn的系统调用地址。此时栈的结构如下图所示，我们称ucontext以及siginfo这一段为SignalFrame。需要注意的是，这一部分是在用户进程的地址空间的。之后会跳转到注册过signal handler中处理相对应的signal。因此，当signal handler执行完之后，就会执行sigreturn代码</p>
 </blockquote>
-<p><img src="https://img2.imgtp.com/2024/03/24/etZlTPmm.png" alt="64位和32位对比.png"></p>
-<ul>
-<li><p>大小不同：32位（2^32^ &#x3D; 4G）64位（2^64^ &#x3D; 256T ）</p>
-</li>
-<li><p>64位比32位多出一块Undefined Region</p>
-</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th align="center">stack</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ucontext</td>
+</tr>
+<tr>
+<td align="center">siginfo</td>
+</tr>
+<tr>
+<td align="center">sigreturn</td>
+</tr>
+</tbody></table>
 <blockquote>
-<p>注：程序在由硬盘向内存进行映射时，内核（kernel）所有进程共用一份（所有程序共用一套操作系统内核即可），虚拟内存用户空间每个进程一份，虚拟内存mmap段中的<b>动态链接库</b>仅在物理内存中装载一份</p>
+<p>signal机制</p>
+<p>signal机制是类unix系统中进程之间传递信息的一种方式。一般，我们也称其为软中断信号，或者软中断。比如说，进程之间可以通过系统调用kill来发出软中断信号。</p>
 </blockquote>
-<h2 id="CPU与进程执行"><a href="#CPU与进程执行" class="headerlink" title="CPU与进程执行"></a>CPU与进程执行</h2><h4 id="段（segment）和节（section）"><a href="#段（segment）和节（section）" class="headerlink" title="段（segment）和节（section）"></a>段（segment）和节（section）</h4><ul>
-<li>代码段（Text segment）包含了代码与只读数据</li>
-</ul>
-<p>.text节</p>
-<p>.rodata节</p>
-<p>.hash节</p>
-<p>.dynsym节</p>
-<p>.dynstr节</p>
-<p><b>.plt</b>节</p>
-<p>.rel.got节</p>
-<p>…………</p>
-<ul>
-<li>数据段（Data segment）包含了可读可写数据</li>
-</ul>
-<p>.data节</p>
-<p>.dynamic节</p>
-<p>.got节</p>
-<p><b>.got.plt</b>节</p>
-<p><b>.bss</b>节</p>
-<p>…………</p>
-<ul>
-<li>栈段（Stack）</li>
-</ul>
-<blockquote>
-<ul>
-<li><p>一个<b>段</b>包含多个<b>节</b>（不准确，主要是说明段比节高一个层次，段和节是不同时期的称呼）</p>
-</li>
-<li><p>段视图用于<b>进程</b>的<b>内存</b>区域的rwx权限划分</p>
-</li>
-<li><p>节视图用于 <b>ELF文件</b>编译链接时 与 在<b>磁盘</b>上存储时 的<b>文件结构</b>组织</p>
-</li>
-</ul>
-</blockquote>
-<p>程序在内存中的组织</p>
-<ul>
-<li><p><img src="https://img2.imgtp.com/2024/03/24/B6Q9L7Uz.png" alt="程序在内存中的组织.png"></p>
-</li>
-<li><p>BSS段：存放未初始化的全局变量</p>
-</li>
-</ul>
-<h2 id="大端序与小端序"><a href="#大端序与小端序" class="headerlink" title="大端序与小端序"></a>大端序与小端序</h2><ul>
-<li><img src="https://img2.imgtp.com/2024/03/24/nc173ZuY.png" alt="大端序与小端序.png"></li>
-</ul>
-<h2 id="程序的装载与进程的执行"><a href="#程序的装载与进程的执行" class="headerlink" title="程序的装载与进程的执行"></a>程序的装载与进程的执行</h2><p>静态链接的程序执行过程</p>
-<ul>
-<li><img src="https://img2.imgtp.com/2024/03/24/HfkPwJ74.png" alt="静态链接的程序执行过程.png"></li>
-</ul>
-<p>动态链接的程序执行过程</p>
-<ul>
-<li><img src="https://img2.imgtp.com/2024/03/24/Z6uSzcG6.png" alt="动态链接的程序执行过程.png"></li>
-</ul>
-<p>动态链接是程序内存只需装载一遍，对内存的利用效率更高</p>
-<h2 id="shellcode"><a href="#shellcode" class="headerlink" title="shellcode"></a>shellcode</h2><blockquote>
-<p>shellcode 通常是软件漏洞利用过程中使用的一小段机器代码</p>
-</blockquote>
-<h6 id="作用："><a href="#作用：" class="headerlink" title="作用："></a>作用：</h6><ul>
-<li><p>启动shell，进行交互</p>
-</li>
-<li><p>打开服务器端口等待连接</p>
-</li>
-<li><p>反向连接端口</p>
-</li>
-</ul>
-<p>生成shellcode</p>
-<ul>
-<li><img src="https://img2.imgtp.com/2024/03/24/9X1azlU1.png" alt="pwntools生成shellcode.png"></li>
-</ul>
 
       </section>
 
@@ -226,28 +240,14 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-    <div class="card-text">
-      
-        <a href="/2024/03/24/%E6%A0%88%E6%BA%A2%E5%87%BA%E5%9F%BA%E7%A1%80/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">栈溢出基础</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
     <div class="card-text">
       
-        <a href="/2024/03/24/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E8%BF%87%E6%BB%A4%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E7%BB%95%E8%BF%87/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">命令执行漏洞过滤的一些简单绕过</h2>
+        <a href="/2024/03/31/BUUCTF-PWN-EXP--1-32/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">BUUCTF-PWN-EXP(1-32)</h2>
         </a>
       
       <div class="card-text--row">Older</div>
