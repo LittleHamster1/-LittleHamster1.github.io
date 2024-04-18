@@ -24,7 +24,7 @@
 
   
 
-  <title>pwn基础知识 | LittleHamster</title>
+  <title>sql注入绕过方法总结 | LittleHamster</title>
 
   
 
@@ -101,11 +101,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">pwn基础知识</h1>
+          <h1 class="title-wrap">sql注入绕过方法总结</h1>
           <h2 class="title-sub-wrap">
             <strong>LittleHamster1</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-03-24T13:17:10.000Z" itemprop="datePublished">2024-03-24</time>
+            <time  class="article-date" datetime="2024-04-18T13:44:14.000Z" itemprop="datePublished">2024-04-18</time>
           </h2>
           
           
@@ -114,7 +114,7 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/pwn/">🏷️ pwn</a></li>
+    <li><a href="/tags/web/">🏷️ web</a></li>
   
 </ul>
         </div>
@@ -138,86 +138,40 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="pwn基础知识"><a href="#pwn基础知识" class="headerlink" title="pwn基础知识"></a>pwn基础知识</h1><h2 id="程序的装载和虚拟内存"><a href="#程序的装载和虚拟内存" class="headerlink" title="程序的装载和虚拟内存"></a>程序的装载和虚拟内存</h2><p><img src="https://img2.imgtp.com/2024/03/24/3ShZj9mW.png" alt="程序内存装载.png"></p>
-<blockquote>
-<p>64位虚拟内存和32位虚拟内存之间的对比</p>
+        <h1 id="SQL注入绕过"><a href="#SQL注入绕过" class="headerlink" title="SQL注入绕过"></a>SQL注入绕过</h1><h2 id="一、注释符号绕过"><a href="#一、注释符号绕过" class="headerlink" title="一、注释符号绕过"></a>一、注释符号绕过</h2><p>常用注释符</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-- 注释内容</span><br><span class="line"># 注释内容</span><br><span class="line">/*注释内容*/</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、大小写绕过"><a href="#二、大小写绕过" class="headerlink" title="二、大小写绕过"></a>二、大小写绕过</h2><blockquote>
+<p>常用与<code>waf</code>的正则对大小不敏感的情况</p>
 </blockquote>
-<p><img src="https://img2.imgtp.com/2024/03/24/etZlTPmm.png" alt="64位和32位对比.png"></p>
-<ul>
-<li><p>大小不同：32位（2^32^ &#x3D; 4G）64位（2^64^ &#x3D; 256T ）</p>
-</li>
-<li><p>64位比32位多出一块Undefined Region</p>
-</li>
-</ul>
-<blockquote>
-<p>注：程序在由硬盘向内存进行映射时，内核（kernel）所有进程共用一份（所有程序共用一套操作系统内核即可），虚拟内存用户空间每个进程一份，虚拟内存mmap段中的<b>动态链接库</b>仅在物理内存中装载一份</p>
+<h2 id="三、内联注释绕过"><a href="#三、内联注释绕过" class="headerlink" title="三、内联注释绕过"></a>三、内联注释绕过</h2><blockquote>
+<p>内联注释就是把一些特有的仅在mysql上的语句放在&#x2F;*! …*&#x2F;中，这样这些语句在其他数据库中是不执行的，但在mysql中会执行</p>
 </blockquote>
-<h2 id="CPU与进程执行"><a href="#CPU与进程执行" class="headerlink" title="CPU与进程执行"></a>CPU与进程执行</h2><h4 id="段（segment）和节（section）"><a href="#段（segment）和节（section）" class="headerlink" title="段（segment）和节（section）"></a>段（segment）和节（section）</h4><ul>
-<li>代码段（Text segment）包含了代码与只读数据</li>
-</ul>
-<p>.text节</p>
-<p>.rodata节</p>
-<p>.hash节</p>
-<p>.dynsym节</p>
-<p>.dynstr节</p>
-<p><b>.plt</b>节</p>
-<p>.rel.got节</p>
-<p>…………</p>
-<ul>
-<li>数据段（Data segment）包含了可读可写数据</li>
-</ul>
-<p>.data节</p>
-<p>.dynamic节</p>
-<p>.got节</p>
-<p><b>.got.plt</b>节</p>
-<p><b>.bss</b>节</p>
-<p>…………</p>
-<ul>
-<li>栈段（Stack）</li>
-</ul>
-<blockquote>
-<ul>
-<li><p>一个<b>段</b>包含多个<b>节</b>（不准确，主要是说明段比节高一个层次，段和节是不同时期的称呼）</p>
-</li>
-<li><p>段视图用于<b>进程</b>的<b>内存</b>区域的rwx权限划分</p>
-</li>
-<li><p>节视图用于 <b>ELF文件</b>编译链接时 与 在<b>磁盘</b>上存储时 的<b>文件结构</b>组织</p>
-</li>
-</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eg</span><br><span class="line">mysql&gt;select * from users where id = -1 union /*!select*/ 1,2,3;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、双写关键字绕过"><a href="#四、双写关键字绕过" class="headerlink" title="四、双写关键字绕过"></a>四、双写关键字绕过</h2><blockquote>
+<p>在一些简单的waf中，将关键字select等只用replace()函数置换为空，这时候可以用双写关键字绕过。例如select变成seleselectct，在经过waf处理后变成select，从而达到绕过目的</p>
 </blockquote>
-<p>程序在内存中的组织</p>
+<h2 id="五、特殊编码绕过"><a href="#五、特殊编码绕过" class="headerlink" title="五、特殊编码绕过"></a>五、特殊编码绕过</h2><ul>
+<li>十六进制绕过</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eg</span><br><span class="line">select * from users where username = 0x7465737431;</span><br></pre></td></tr></table></figure>
+
 <ul>
-<li><p><img src="https://img2.imgtp.com/2024/03/24/B6Q9L7Uz.png" alt="程序在内存中的组织.png"></p>
-</li>
-<li><p>BSS段：存放未初始化的全局变量</p>
-</li>
+<li>ascii编码绕过</li>
 </ul>
-<h2 id="大端序与小端序"><a href="#大端序与小端序" class="headerlink" title="大端序与小端序"></a>大端序与小端序</h2><ul>
-<li><img src="https://img2.imgtp.com/2024/03/24/nc173ZuY.png" alt="大端序与小端序.png"></li>
-</ul>
-<h2 id="程序的装载与进程的执行"><a href="#程序的装载与进程的执行" class="headerlink" title="程序的装载与进程的执行"></a>程序的装载与进程的执行</h2><p>静态链接的程序执行过程</p>
-<ul>
-<li><img src="https://img2.imgtp.com/2024/03/24/HfkPwJ74.png" alt="静态链接的程序执行过程.png"></li>
-</ul>
-<p>动态链接的程序执行过程</p>
-<ul>
-<li><img src="https://img2.imgtp.com/2024/03/24/Z6uSzcG6.png" alt="动态链接的程序执行过程.png"></li>
-</ul>
-<p>动态链接是程序内存只需装载一遍，对内存的利用效率更高</p>
-<h2 id="shellcode"><a href="#shellcode" class="headerlink" title="shellcode"></a>shellcode</h2><blockquote>
-<p>shellcode 通常是软件漏洞利用过程中使用的一小段机器代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eg</span><br><span class="line">Test == char(101) + char(97) + char(115) + char(116)</span><br></pre></td></tr></table></figure>
+
+<h2 id="六、空格过滤绕过"><a href="#六、空格过滤绕过" class="headerlink" title="六、空格过滤绕过"></a>六、空格过滤绕过</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/**/</span><br><span class="line">()</span><br><span class="line">回车(URL编码中的%0A)</span><br><span class="line">`</span><br><span class="line">tab</span><br><span class="line">两个空格</span><br></pre></td></tr></table></figure>
+
+<h2 id="七、-过滤绕过"><a href="#七、-过滤绕过" class="headerlink" title="七、&#x3D;过滤绕过"></a>七、&#x3D;过滤绕过</h2><blockquote>
+<p>不加通配符的like与&#x3D;作用相同</p>
 </blockquote>
-<h6 id="作用："><a href="#作用：" class="headerlink" title="作用："></a>作用：</h6><ul>
-<li><p>启动shell，进行交互</p>
-</li>
-<li><p>打开服务器端口等待连接</p>
-</li>
-<li><p>反向连接端口</p>
-</li>
-</ul>
-<p>生成shellcode</p>
-<ul>
-<li><img src="https://img2.imgtp.com/2024/03/24/9X1azlU1.png" alt="pwntools生成shellcode.png"></li>
+<h2 id="八、过滤大于小于号"><a href="#八、过滤大于小于号" class="headerlink" title="八、过滤大于小于号"></a>八、过滤大于小于号</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">使用以下函数代替</span><br><span class="line">greatest()</span><br><span class="line">least()</span><br><span class="line">strcmp()</span><br></pre></td></tr></table></figure>
+
+<h2 id="九、过滤引号绕过"><a href="#九、过滤引号绕过" class="headerlink" title="九、过滤引号绕过"></a>九、过滤引号绕过</h2><ul>
+<li>使用十六进制</li>
+<li>宽字节</li>
 </ul>
 
       </section>
@@ -226,28 +180,14 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-    <div class="card-text">
-      
-        <a href="/2024/03/24/%E6%A0%88%E6%BA%A2%E5%87%BA%E5%9F%BA%E7%A1%80/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">栈溢出基础</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
     <div class="card-text">
       
-        <a href="/2024/03/24/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E8%BF%87%E6%BB%A4%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E7%BB%95%E8%BF%87/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">命令执行漏洞过滤的一些简单绕过</h2>
+        <a href="/2024/04/10/PWN-%E6%A0%88%E5%88%A9%E7%94%A8%E4%B9%8B%E5%AF%B9%E6%8A%97linux%E4%BF%9D%E6%8A%A4/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">PWN --栈利用之对抗linux保护</h2>
         </a>
       
       <div class="card-text--row">Older</div>
