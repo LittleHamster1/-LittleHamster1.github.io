@@ -24,7 +24,7 @@
 
   
 
-  <title>PWN --栈利用之对抗linux保护 | LittleHamster</title>
+  <title>RCE漏洞 | LittleHamster</title>
 
   
 
@@ -101,11 +101,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">PWN --栈利用之对抗linux保护</h1>
+          <h1 class="title-wrap">RCE漏洞</h1>
           <h2 class="title-sub-wrap">
             <strong>LittleHamster1</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-04-10T09:50:07.000Z" itemprop="datePublished">2024-04-10</time>
+            <time  class="article-date" datetime="2024-04-21T13:40:04.000Z" itemprop="datePublished">2024-04-21</time>
           </h2>
           
           
@@ -114,7 +114,7 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/pwn/">🏷️ pwn</a></li>
+    <li><a href="/tags/web/">🏷️ web</a></li>
   
 </ul>
         </div>
@@ -138,100 +138,83 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="栈利用之对抗Linux保护"><a href="#栈利用之对抗Linux保护" class="headerlink" title="栈利用之对抗Linux保护"></a>栈利用之对抗Linux保护</h1><h2 id="一、Linux保护技术概述"><a href="#一、Linux保护技术概述" class="headerlink" title="一、Linux保护技术概述"></a>一、Linux保护技术概述</h2><blockquote>
-<p>Linux常见的保护机制：</p>
-<p>1、Canary</p>
-<p>2、Fortify</p>
-<p>3、NX&#x2F;DEP</p>
-<p>4、PIE&#x2F;ALSR</p>
-<p>5、RELRO</p>
-</blockquote>
-<h3 id="1、NX保护（windows下为DEP）"><a href="#1、NX保护（windows下为DEP）" class="headerlink" title="1、NX保护（windows下为DEP）"></a>1、NX保护（windows下为DEP）</h3><blockquote>
-<p>作用：将数据（堆、栈）所在内存页标识为不可执行，当程序溢出成功转入shellcode时，程序会尝试在数据页面上执行指令，此时CPU就会抛出异常，而不是去执行恶意指令。</p>
-</blockquote>
-<p>编译选项</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">关闭：-z execstack</span><br><span class="line">开启：-z noexecstack</span><br></pre></td></tr></table></figure>
-
-<h3 id="2、PIE保护"><a href="#2、PIE保护" class="headerlink" title="2、PIE保护"></a>2、PIE保护</h3><blockquote>
-<p>作用：使得程序地址空间分布随机化，增加ROP等利用难度。（因为地址都是不确定的了）</p>
-</blockquote>
-<p>编译选项</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">关闭：-no-pie</span><br><span class="line">开启：-pie -fPIC</span><br></pre></td></tr></table></figure>
-
-<h3 id="3、Canary保护"><a href="#3、Canary保护" class="headerlink" title="3、Canary保护"></a>3、Canary保护</h3><blockquote>
-<p>作用：函数开始执行的时候会先往栈里插入Canary值，当函数真正返回的时候会验证canary值是否合法，如果不合法就停止程序运行。可以防止栈溢出覆盖返回地址</p>
-</blockquote>
-<p>编译选项</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">关闭：-fno-stack-protector</span><br><span class="line">启用（只为局部变量中含有char的函数插入保护代码）：-fstack-protector</span><br><span class="line">启用（为所有函数插入保护代码）：-fstack-protector-all</span><br></pre></td></tr></table></figure>
-
-<h3 id="4、Fortify保护"><a href="#4、Fortify保护" class="headerlink" title="4、Fortify保护"></a>4、Fortify保护</h3><blockquote>
-<p>作用：主要用来防止格式化字符串漏洞。包含%n的格式化字符串不能位于程序内存中的可写地址。当使用位置参数时，必须使用范围内的所有参数（如果要使用%7$x，必须使用1<code>$</code>,2<code>$</code>,3<code>$</code>,4<code>$</code>,5<code>$</code>,6<code>$</code>）</p>
-</blockquote>
-<p>编译选项</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">关闭：-D_FORTIFY_SOURCE=0</span><br><span class="line">开启：-D_FORTIFY_SOURCE=2</span><br></pre></td></tr></table></figure>
-
-<h3 id="5、RELRO保护"><a href="#5、RELRO保护" class="headerlink" title="5、RELRO保护"></a>5、RELRO保护</h3><blockquote>
-<p>作用：设置符号重定向表为<mark>只读</mark>并在程序启动时就解析并绑定所有动态符号，从而减少对GOT(Global Offset Table)表的攻击</p>
-</blockquote>
-<p>编译选项</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">开启（部分）：-z lazy</span><br><span class="line">开启（完全）：-z now</span><br></pre></td></tr></table></figure>
-
-<h2 id="二、对抗NX-DEP保护技术"><a href="#二、对抗NX-DEP保护技术" class="headerlink" title="二、对抗NX&#x2F;DEP保护技术"></a>二、对抗NX&#x2F;DEP保护技术</h2><h4 id="ROP"><a href="#ROP" class="headerlink" title="ROP"></a>ROP</h4><blockquote>
-<p>目前主要的绕过方法就是ROP（Return Oriented Programming）技术，其主要思想是在栈溢出的基础上，利用<mark>程序中已有的小片段(gadgets)</mark>来改变某些寄存器或者变量的值，从而<mark>控制程序的执行流程</mark>。所谓gadgets就是以<mark>ret结尾</mark>的指令序列，通过这些序列，我们可以修改某些地址的内容，方便连续地控制程序的执行流程</p>
-</blockquote>
-<h5 id="条件："><a href="#条件：" class="headerlink" title="条件："></a>条件：</h5><ul>
-<li>程序存在栈溢出，并且可以控制返回地址</li>
-<li>可以找到满足条件的gadgets以及对应gadgets的地址。（如果gadgets每次的地址都是不固定的，那我们就需要想办法动态获取对应的地址了。）</li>
-</ul>
-<h2 id="三、对抗ASLR-PIE保护技术"><a href="#三、对抗ASLR-PIE保护技术" class="headerlink" title="三、对抗ASLR&#x2F;PIE保护技术"></a>三、对抗ASLR&#x2F;PIE保护技术</h2><blockquote>
-<p>延迟绑定机制：在第一次调用某个库函数的时候去解析它的地址并存入got表中，下次调用的时候直接从got表中拿不用重复解析，这样做提高了动态链接的效率</p>
-</blockquote>
-<h4 id="ROP（ret2libc）"><a href="#ROP（ret2libc）" class="headerlink" title="ROP（ret2libc）"></a>ROP（ret2libc）</h4><blockquote>
-<p>泄露GOT表中某个函数的libc地址</p>
-<p>在libc中找到system，&#x2F;bin&#x2F;sh和这个函数的相对偏移</p>
-<p>得到system的地址和‘&#x2F;bin&#x2F;sh’的地址</p>
-<p>构造ROP链，成功利用</p>
-</blockquote>
-<h2 id="四、对抗Canary保护技术"><a href="#四、对抗Canary保护技术" class="headerlink" title="四、对抗Canary保护技术"></a>四、对抗Canary保护技术</h2><h3 id="1、泄露Canary值"><a href="#1、泄露Canary值" class="headerlink" title="1、泄露Canary值"></a>1、泄露Canary值</h3><h3 id="2、覆写副本值-–需要进行位置的爆破"><a href="#2、覆写副本值-–需要进行位置的爆破" class="headerlink" title="2、覆写副本值  –需要进行位置的爆破"></a>2、覆写副本值  –需要进行位置的爆破</h3><h3 id="3、劫持stack-chk-fail"><a href="#3、劫持stack-chk-fail" class="headerlink" title="3、劫持stack_chk_fail"></a>3、劫持stack_chk_fail</h3><blockquote>
-<p>可以修改全局偏移表（GOT）中存储的stack_chk_fail函数地址，便可以在触发canary检查失败时，跳转到指定的地址继续执行</p>
-</blockquote>
-<h3 id="4、stack-smashing"><a href="#4、stack-smashing" class="headerlink" title="4、stack smashing"></a>4、stack smashing</h3><blockquote>
-<p>当canary被覆盖后，会call到_stack_chk_fail打印argv[0]这个指针指向的字符串，默认是程序的名字</p>
-<p>如果我们把它覆盖为其他的地址时，它就会把其他内存地址的信息打印出来</p>
-</blockquote>
-<h3 id="5、BROP（逐字节爆破）"><a href="#5、BROP（逐字节爆破）" class="headerlink" title="5、BROP（逐字节爆破）"></a>5、BROP（逐字节爆破）</h3><blockquote>
-<p>攻击条件：</p>
-<p>（1）远程程序必须先存在一个已知的stack overflow的漏洞，而且攻击者知道如何触发这个漏洞；</p>
-<p>（2）服务器进程在crash之后会重新复活，并且复活的进程不会被r-rand（意味着虽然有ASLR的保护，但是复活的进程和之前的进程的地址随机化与canary是一样的）。这个需求其实是合理的，因为当前像nginx，MySQL，Apache，OpenSSH，Samba等服务器都符合这个共性。</p>
-</blockquote>
-<h2 id="五、拓展"><a href="#五、拓展" class="headerlink" title="五、拓展"></a>五、拓展</h2><h3 id="1、溢出长度不够？"><a href="#1、溢出长度不够？" class="headerlink" title="1、溢出长度不够？"></a>1、溢出长度不够？</h3><ul>
-<li>栈劫持（stack povit）</li>
-</ul>
-<h3 id="2、SROP"><a href="#2、SROP" class="headerlink" title="2、SROP"></a>2、SROP</h3><blockquote>
-<p>SROP的全称是Sigreturn Oriented Programming。在这里<code>sigreturn</code>是一个系统调用，它在unix系统发生gignal的时候会被间接地调用</p>
-</blockquote>
-<blockquote>
-<p>内存会为该进程保存相应的上下文，主要是将所有寄存器压入栈中，以及压入signal信息，以及指向sigreturn的系统调用地址。此时栈的结构如下图所示，我们称ucontext以及siginfo这一段为SignalFrame。需要注意的是，这一部分是在用户进程的地址空间的。之后会跳转到注册过signal handler中处理相对应的signal。因此，当signal handler执行完之后，就会执行sigreturn代码</p>
-</blockquote>
-<table>
+        <h1 id="一、命令拼接符号"><a href="#一、命令拼接符号" class="headerlink" title="一、命令拼接符号"></a>一、命令拼接符号</h1><h2 id="1、Windows下的命令拼接符号"><a href="#1、Windows下的命令拼接符号" class="headerlink" title="1、Windows下的命令拼接符号"></a>1、Windows下的命令拼接符号</h2><table>
 <thead>
 <tr>
-<th align="left">stack</th>
+<th align="center">拼接符</th>
+<th align="center">示例</th>
+<th align="center">拼接符详解</th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="left">ucontext</td>
+<td align="center">&amp;</td>
+<td align="center">A&amp;B</td>
+<td align="center">无论 A 是 false 还是 true，B 都执行，即互不影响</td>
 </tr>
 <tr>
-<td align="left">siginfo</td>
+<td align="center">&amp;&amp;</td>
+<td align="center">A&amp;&amp;B</td>
+<td align="center">A 是 false，B 就不执行，有短路效果</td>
 </tr>
 <tr>
-<td align="left">sigreturn</td>
+<td align="center">||</td>
+<td align="center">A || B</td>
+<td align="center">A是true，B就不执行</td>
 </tr>
 </tbody></table>
+<h2 id="2、Linux下的命令拼接符号"><a href="#2、Linux下的命令拼接符号" class="headerlink" title="2、Linux下的命令拼接符号"></a>2、Linux下的命令拼接符号</h2><table>
+<thead>
+<tr>
+<th align="center">拼接符</th>
+<th align="center">示例</th>
+<th align="center">拼接符详解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">&amp;</td>
+<td align="center">A &amp;</td>
+<td align="center">‘&amp;’的作用是使命令在一直后台运行。只要在命令后面跟上一个空格和 <code>&amp;</code>。需要停止，就是kill -s 进程号</td>
+</tr>
+<tr>
+<td align="center">;</td>
+<td align="center">A ; B</td>
+<td align="center">可以进行多条命令的无关联执行，每一条执行结果互不影响</td>
+</tr>
+<tr>
+<td align="center">&amp;&amp;</td>
+<td align="center">A &amp;&amp; B</td>
+<td align="center">A 是 false，B 就不执行，有短路效果</td>
+</tr>
+<tr>
+<td align="center">||</td>
+<td align="center">A || B</td>
+<td align="center">A是true，B就不执行</td>
+</tr>
+</tbody></table>
+<h1 id="二、常用绕过方法"><a href="#二、常用绕过方法" class="headerlink" title="二、常用绕过方法"></a>二、常用绕过方法</h1><h2 id="1、通配符绕过"><a href="#1、通配符绕过" class="headerlink" title="1、通配符绕过"></a>1、通配符绕过</h2><table>
+<thead>
+<tr>
+<th align="center">符号</th>
+<th align="center">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">？</td>
+<td align="center">匹配单个字符如果匹配多个字符，就需要多个?连用</td>
+</tr>
+<tr>
+<td align="center">*</td>
+<td align="center">*代表任意数量的字符</td>
+</tr>
+<tr>
+<td align="center">[]</td>
+<td align="center">代表一定有一个在括号内的字符(非任意字符)。例如 [abcd] 代表一定有一个字符， 可能是 a, b, c, d 这四个任何一个</td>
+</tr>
+</tbody></table>
+<h2 id="2、连接符"><a href="#2、连接符" class="headerlink" title="2、连接符"></a>2、连接符</h2><p>单双引号反斜杠 “ “ ‘ ’ 如：&#x2F;‘b’i’n’&#x2F;‘c’a’t’ &#x2F;‘e’t’c’&#x2F;‘p’a’s’s’w’d</p>
+<h2 id="3、未初始化变量"><a href="#3、未初始化变量" class="headerlink" title="3、未初始化变量"></a>3、未初始化变量</h2><p>未初始化的变量值都是 null，例如 a,b在 Linux 环境下输出都为 null ，所以可以用未初始化变量加在一些命令的末尾，来绕过一些黑名单</p>
 <blockquote>
-<p>signal机制</p>
-<p>signal机制是类unix系统中进程之间传递信息的一种方式。一般，我们也称其为软中断信号，或者软中断。比如说，进程之间可以通过系统调用kill来发出软中断信号。</p>
+<p>eg:cat$a &#x2F;etc$a&#x2F;passwd$a</p>
 </blockquote>
 
       </section>
@@ -240,6 +223,7 @@
       
         <nav class="article-nav">
           
+          
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
@@ -247,21 +231,6 @@
       
         <a href="/2024/04/18/sql%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" itemprop="url">
           <h2 class="card-text--title text-ellipsis">sql注入绕过方法总结</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
-          
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-    <div class="card-text">
-      
-        <a href="/2024/03/31/BUUCTF-PWN-EXP--1-32/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">BUUCTF-PWN-EXP(1-32)</h2>
         </a>
       
       <div class="card-text--row">Older</div>
