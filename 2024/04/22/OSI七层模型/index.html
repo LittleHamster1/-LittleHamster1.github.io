@@ -24,7 +24,7 @@
 
   
 
-  <title>sql注入绕过方法总结 | LittleHamster</title>
+  <title>OSI七层模型 | LittleHamster</title>
 
   
 
@@ -101,11 +101,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">sql注入绕过方法总结</h1>
+          <h1 class="title-wrap">OSI七层模型</h1>
           <h2 class="title-sub-wrap">
             <strong>LittleHamster1</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-04-18T13:44:14.000Z" itemprop="datePublished">2024-04-18</time>
+            <time  class="article-date" datetime="2024-04-22T05:24:45.000Z" itemprop="datePublished">2024-04-22</time>
           </h2>
           
           
@@ -114,7 +114,7 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/web/">🏷️ web</a></li>
+    <li><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">🏷️ 计算机网络</a></li>
   
 </ul>
         </div>
@@ -138,41 +138,50 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="SQL注入绕过"><a href="#SQL注入绕过" class="headerlink" title="SQL注入绕过"></a>SQL注入绕过</h1><h2 id="一、注释符号绕过"><a href="#一、注释符号绕过" class="headerlink" title="一、注释符号绕过"></a>一、注释符号绕过</h2><p>常用注释符</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-- 注释内容</span><br><span class="line"># 注释内容</span><br><span class="line">/*注释内容*/</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
-
-<h2 id="二、大小写绕过"><a href="#二、大小写绕过" class="headerlink" title="二、大小写绕过"></a>二、大小写绕过</h2><blockquote>
-<p>常用与<code>waf</code>的正则对大小不敏感的情况</p>
+        <h1 id="OSI七层模型"><a href="#OSI七层模型" class="headerlink" title="OSI七层模型"></a>OSI七层模型</h1><p><img src="https://img2.imgtp.com/2024/04/22/cMWryX0X.png" alt="屏幕截图 2024-04-22 132814.png"></p>
+<h2 id="1、应用层"><a href="#1、应用层" class="headerlink" title="1、应用层"></a>1、应用层</h2><blockquote>
+<p>逻辑上将两个应用连接起来</p>
 </blockquote>
-<h2 id="三、内联注释绕过"><a href="#三、内联注释绕过" class="headerlink" title="三、内联注释绕过"></a>三、内联注释绕过</h2><blockquote>
-<p>内联注释就是把一些特有的仅在mysql上的语句放在&#x2F;*! …*&#x2F;中，这样这些语句在其他数据库中是不执行的，但在mysql中会执行</p>
+<p><img src="https://img2.imgtp.com/2024/04/22/sIwwGxHn.png" alt="屏幕截图 2024-04-22 133033.png"></p>
+<h2 id="2、表示层"><a href="#2、表示层" class="headerlink" title="2、表示层"></a>2、表示层</h2><blockquote>
+<p>负责数据的编码和解码</p>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eg</span><br><span class="line">mysql&gt;select * from users where id = -1 union /*!select*/ 1,2,3;</span><br></pre></td></tr></table></figure>
-
-<h2 id="四、双写关键字绕过"><a href="#四、双写关键字绕过" class="headerlink" title="四、双写关键字绕过"></a>四、双写关键字绕过</h2><blockquote>
-<p>在一些简单的waf中，将关键字select等只用replace()函数置换为空，这时候可以用双写关键字绕过。例如select变成seleselectct，在经过waf处理后变成select，从而达到绕过目的</p>
+<h2 id="3、会话层"><a href="#3、会话层" class="headerlink" title="3、会话层"></a>3、会话层</h2><blockquote>
+<p>保持用户的登录状态以及同步服务</p>
 </blockquote>
-<h2 id="五、特殊编码绕过"><a href="#五、特殊编码绕过" class="headerlink" title="五、特殊编码绕过"></a>五、特殊编码绕过</h2><ul>
-<li>十六进制绕过</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eg</span><br><span class="line">select * from users where username = 0x7465737431;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>ascii编码绕过</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eg</span><br><span class="line">Test == char(101) + char(97) + char(115) + char(116)</span><br></pre></td></tr></table></figure>
-
-<h2 id="六、空格过滤绕过"><a href="#六、空格过滤绕过" class="headerlink" title="六、空格过滤绕过"></a>六、空格过滤绕过</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/**/</span><br><span class="line">()</span><br><span class="line">回车(URL编码中的%0A)</span><br><span class="line">`</span><br><span class="line">tab</span><br><span class="line">两个空格</span><br></pre></td></tr></table></figure>
-
-<h2 id="七、-过滤绕过"><a href="#七、-过滤绕过" class="headerlink" title="七、&#x3D;过滤绕过"></a>七、&#x3D;过滤绕过</h2><blockquote>
-<p>不加通配符的like与&#x3D;作用相同</p>
+<h2 id="4、传输层"><a href="#4、传输层" class="headerlink" title="4、传输层"></a>4、传输层</h2><blockquote>
+<p>数据到达指定主机后因为目的主机可能运行大量的服务，因此需要端口号定位指定服务</p>
 </blockquote>
-<h2 id="八、过滤大于小于号"><a href="#八、过滤大于小于号" class="headerlink" title="八、过滤大于小于号"></a>八、过滤大于小于号</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">使用以下函数代替</span><br><span class="line">greatest()</span><br><span class="line">least()</span><br><span class="line">strcmp()</span><br></pre></td></tr></table></figure>
-
-<h2 id="九、过滤引号绕过"><a href="#九、过滤引号绕过" class="headerlink" title="九、过滤引号绕过"></a>九、过滤引号绕过</h2><ul>
-<li>使用十六进制</li>
-<li>宽字节</li>
-</ul>
+<p><img src="https://img2.imgtp.com/2024/04/22/Xvv519Lo.png" alt="屏幕截图 2024-04-22 134136.png"></p>
+<p><img src="https://img2.imgtp.com/2024/04/22/HZdfVX3k.png" alt="屏幕截图 2024-04-22 134244.png"></p>
+<h3 id="TCP传输"><a href="#TCP传输" class="headerlink" title="TCP传输"></a>TCP传输</h3><p>TCP允许应用把字节流变成多份段</p>
+<p><img src="https://img2.imgtp.com/2024/04/22/ws5yEKQP.png" alt="屏幕截图 2024-04-22 134336.png"></p>
+<h2 id="5、网络层"><a href="#5、网络层" class="headerlink" title="5、网络层"></a>5、网络层</h2><blockquote>
+<p>利用IP地址进行寻址和路由选择</p>
+</blockquote>
+<p><img src="https://img2.imgtp.com/2024/04/22/eKkP9h27.png" alt="屏幕截图 2024-04-22 133830.png"></p>
+<p>路由器根据包里的IP地址进行转发</p>
+<h2 id="6、数据链路层"><a href="#6、数据链路层" class="headerlink" title="6、数据链路层"></a>6、数据链路层</h2><blockquote>
+<p>将比特封装成帧，差错检验</p>
+</blockquote>
+<p><img src="https://img2.imgtp.com/2024/04/22/oyGqVi5N.png" alt="屏幕截图 2024-04-22 133422.png"></p>
+<p>网卡在出厂时就具有唯一的MAC地址</p>
+<h2 id="7、物理层"><a href="#7、物理层" class="headerlink" title="7、物理层"></a>7、物理层</h2><blockquote>
+<p>将数据以比特（0，1）的形式发送出去</p>
+</blockquote>
+<h2 id="各层之间关系图"><a href="#各层之间关系图" class="headerlink" title="各层之间关系图"></a>各层之间关系图</h2><p><img src="https://img2.imgtp.com/2024/04/22/ZvR6tERQ.png" alt="屏幕截图 2024-04-22 134830.png"></p>
+<h2 id="数据传输流程"><a href="#数据传输流程" class="headerlink" title="数据传输流程"></a>数据传输流程</h2><p><img src="https://img2.imgtp.com/2024/04/22/TEsyrrAP.png" alt="屏幕截图 2024-04-22 135305.png"></p>
+<blockquote>
+<p>由于目标IP不是同一个网络下的，就需要经过默认网关</p>
+<p>客户端主机最初并不知道默认网关的MAC地址没办法封装成帧</p>
+<p>这时可以用ARP协议进行广播，找到网关IP的对应的MAC地址</p>
+</blockquote>
+<p><img src="https://img2.imgtp.com/2024/04/22/wI4fF8h8.png" alt="屏幕截图 2024-04-22 180942.png"></p>
+<blockquote>
+<p>默认网关查看发送来的帧，发现发送端的MAC地址</p>
+<p>再解封发现包里的IP地址，把包里的MAC地址和IP地址关联为一台主机，同时默认网关把自己的IP放进包里，再将自己的MAC地址封装到帧里，返回到客户端</p>
+</blockquote>
+<p><img src="https://www.freeimg.cn/i/2024/04/22/662639d27de04.png" alt="屏幕截图 2024-04-22 181746.png"></p>
 
       </section>
 
@@ -180,28 +189,14 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-    <div class="card-text">
-      
-        <a href="/2024/04/21/RCE%E6%BC%8F%E6%B4%9E/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">RCE漏洞</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
     <div class="card-text">
       
-        <a href="/2024/04/10/PWN-%E6%A0%88%E5%88%A9%E7%94%A8%E4%B9%8B%E5%AF%B9%E6%8A%97linux%E4%BF%9D%E6%8A%A4/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">PWN --栈利用之对抗linux保护</h2>
+        <a href="/2024/04/21/File-Include/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">File_Include</h2>
         </a>
       
       <div class="card-text--row">Older</div>
