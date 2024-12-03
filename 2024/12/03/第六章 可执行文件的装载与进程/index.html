@@ -13,35 +13,26 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://example.com/2024/04/22/osi七层模型/"/>
+    <link rel="canonical" href="http://example.com/2024/12/03/第六章 可执行文件的装载与进程/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="OSI七层模型 1、应用层 逻辑上将两个应用连接起来   2、表示层 负责数据的编码和解码  3、会话层 保持用户的登录状态以及同步服务  4、传输层 数据到达指定主机后因为目的主机可能运行大量的服务，因此需要端口号定位指定服务    TCP传输TCP允许应用把字节流变成多份段  5、网络层 利用IP地址进行寻址和路由选择   路由器根据包里的IP地址进行转发 6、数据链路层 将比特封装成帧，差错">
+        <meta name="description" content="6.1 进程虚拟地址空间6.1.1 32位linux寻址空间大致分布  6.1.2 64位linux寻址空间大致分布  6.2 装载的方式程序在执行时所需要的指令和数据必须在内存中才能正常运行，最简单的方法就是将程序运行所需要的指令和数据全部装入内存，这样程序就可以顺利运行，这就是最简单的装入方法。但是很多情况下程序所需要的内存数量大于实际的物理内存数量，当内存的数量不够时，根本的解决方法就是添加">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OSI七层模型">
-<meta property="og:url" content="http://example.com/2024/04/22/OSI%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:title" content="第六章 可执行文件的装载与进程">
+<meta property="og:url" content="http://example.com/2024/12/03/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E8%A3%85%E8%BD%BD%E4%B8%8E%E8%BF%9B%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Wi1lings">
-<meta property="og:description" content="OSI七层模型 1、应用层 逻辑上将两个应用连接起来   2、表示层 负责数据的编码和解码  3、会话层 保持用户的登录状态以及同步服务  4、传输层 数据到达指定主机后因为目的主机可能运行大量的服务，因此需要端口号定位指定服务    TCP传输TCP允许应用把字节流变成多份段  5、网络层 利用IP地址进行寻址和路由选择   路由器根据包里的IP地址进行转发 6、数据链路层 将比特封装成帧，差错">
+<meta property="og:description" content="6.1 进程虚拟地址空间6.1.1 32位linux寻址空间大致分布  6.1.2 64位linux寻址空间大致分布  6.2 装载的方式程序在执行时所需要的指令和数据必须在内存中才能正常运行，最简单的方法就是将程序运行所需要的指令和数据全部装入内存，这样程序就可以顺利运行，这就是最简单的装入方法。但是很多情况下程序所需要的内存数量大于实际的物理内存数量，当内存的数量不够时，根本的解决方法就是添加">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img2.imgtp.com/2024/04/22/cMWryX0X.png">
-<meta property="og:image" content="https://img2.imgtp.com/2024/04/22/sIwwGxHn.png">
-<meta property="og:image" content="https://img2.imgtp.com/2024/04/22/Xvv519Lo.png">
-<meta property="og:image" content="https://img2.imgtp.com/2024/04/22/HZdfVX3k.png">
-<meta property="og:image" content="https://img2.imgtp.com/2024/04/22/ws5yEKQP.png">
-<meta property="og:image" content="https://img2.imgtp.com/2024/04/22/eKkP9h27.png">
-<meta property="og:image" content="https://img2.imgtp.com/2024/04/22/oyGqVi5N.png">
-<meta property="og:image" content="https://img2.imgtp.com/2024/04/22/ZvR6tERQ.png">
-<meta property="og:image" content="https://img2.imgtp.com/2024/04/22/TEsyrrAP.png">
-<meta property="og:image" content="https://img2.imgtp.com/2024/04/22/wI4fF8h8.png">
-<meta property="og:image" content="https://www.freeimg.cn/i/2024/04/22/662639d27de04.png">
-<meta property="article:published_time" content="2024-04-22T05:24:45.000Z">
-<meta property="article:modified_time" content="2024-04-22T10:22:15.143Z">
+<meta property="og:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412021857614.png">
+<meta property="og:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412021858300.png">
+<meta property="article:published_time" content="2024-12-03T07:41:45.000Z">
+<meta property="article:modified_time" content="2024-12-03T07:43:45.279Z">
 <meta property="article:author" content="Wi1lings">
-<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="程序员的自我修养">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img2.imgtp.com/2024/04/22/cMWryX0X.png">
+<meta name="twitter:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412021857614.png">
     
     
     <!--- Icon Part-->
@@ -53,7 +44,7 @@
     
     <title>
         
-            OSI七层模型 | Wi1lings
+            第六章 可执行文件的装载与进程 | Wi1lings
         
     </title>
 
@@ -214,7 +205,7 @@
 
         <div class="statistics flex justify-around my-2.5">
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">3</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">1</div>
         <div class="label text-third-text-color text-sm">标签</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
@@ -222,7 +213,7 @@
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">13</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">6</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -248,7 +239,7 @@
         <div class="article-title relative w-full">
             
                 <div class="w-full flex items-center pt-6 justify-start">
-                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">OSI七层模型</h1>
+                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">第六章 可执行文件的装载与进程</h1>
                 </div>
             
             </div>
@@ -262,22 +253,22 @@
                     <div class="author flex items-center">
                         <span class="name text-default-text-color text-lg font-semibold">Wi1lings</span>
                         
-                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv2</span>
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv1</span>
                         
                     </div>
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="desktop">2024-04-22 13:24:45</span>
-        <span class="mobile">2024-04-22 13:24:45</span>
+        <span class="desktop">2024-12-03 15:41:45</span>
+        <span class="mobile">2024-12-03 15:41:45</span>
         <span class="hover-info">创建</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-04-22 18:22:15</span>
-            <span class="mobile">2024-04-22 18:22:15</span>
+            <span class="desktop">2024-12-03 15:43:45</span>
+            <span class="mobile">2024-12-03 15:43:45</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -289,7 +280,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>&nbsp;
+                        <a href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">程序员的自我修养</a>&nbsp;
                     </li>
                 
             </ul>
@@ -315,105 +306,38 @@
 
 
         <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
-            <h1 id="OSI七层模型"><a href="#OSI七层模型" class="headerlink" title="OSI七层模型"></a>OSI七层模型</h1><p><img  
+            <h2 id="6-1-进程虚拟地址空间"><a href="#6-1-进程虚拟地址空间" class="headerlink" title="6.1 进程虚拟地址空间"></a>6.1 进程虚拟地址空间</h2><h3 id="6-1-1-32位linux寻址空间大致分布"><a href="#6-1-1-32位linux寻址空间大致分布" class="headerlink" title="6.1.1 32位linux寻址空间大致分布"></a>6.1.1 32位linux寻址空间大致分布</h3><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://img2.imgtp.com/2024/04/22/cMWryX0X.png"
-                      alt="屏幕截图 2024-04-22 132814.png"
-                ></p>
-<h2 id="1、应用层"><a href="#1、应用层" class="headerlink" title="1、应用层"></a>1、应用层</h2><blockquote>
-<p>逻辑上将两个应用连接起来</p>
-</blockquote>
-<p><img  
+                     data-src="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412021857614.png"
+                      style="zoom: 80%;" 
+                >
+
+<h3 id="6-1-2-64位linux寻址空间大致分布"><a href="#6-1-2-64位linux寻址空间大致分布" class="headerlink" title="6.1.2 64位linux寻址空间大致分布"></a>6.1.2 64位linux寻址空间大致分布</h3><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://img2.imgtp.com/2024/04/22/sIwwGxHn.png"
-                      alt="屏幕截图 2024-04-22 133033.png"
-                ></p>
-<h2 id="2、表示层"><a href="#2、表示层" class="headerlink" title="2、表示层"></a>2、表示层</h2><blockquote>
-<p>负责数据的编码和解码</p>
-</blockquote>
-<h2 id="3、会话层"><a href="#3、会话层" class="headerlink" title="3、会话层"></a>3、会话层</h2><blockquote>
-<p>保持用户的登录状态以及同步服务</p>
-</blockquote>
-<h2 id="4、传输层"><a href="#4、传输层" class="headerlink" title="4、传输层"></a>4、传输层</h2><blockquote>
-<p>数据到达指定主机后因为目的主机可能运行大量的服务，因此需要端口号定位指定服务</p>
-</blockquote>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://img2.imgtp.com/2024/04/22/Xvv519Lo.png"
-                      alt="屏幕截图 2024-04-22 134136.png"
-                ></p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://img2.imgtp.com/2024/04/22/HZdfVX3k.png"
-                      alt="屏幕截图 2024-04-22 134244.png"
-                ></p>
-<h3 id="TCP传输"><a href="#TCP传输" class="headerlink" title="TCP传输"></a>TCP传输</h3><p>TCP允许应用把字节流变成多份段</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://img2.imgtp.com/2024/04/22/ws5yEKQP.png"
-                      alt="屏幕截图 2024-04-22 134336.png"
-                ></p>
-<h2 id="5、网络层"><a href="#5、网络层" class="headerlink" title="5、网络层"></a>5、网络层</h2><blockquote>
-<p>利用IP地址进行寻址和路由选择</p>
-</blockquote>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://img2.imgtp.com/2024/04/22/eKkP9h27.png"
-                      alt="屏幕截图 2024-04-22 133830.png"
-                ></p>
-<p>路由器根据包里的IP地址进行转发</p>
-<h2 id="6、数据链路层"><a href="#6、数据链路层" class="headerlink" title="6、数据链路层"></a>6、数据链路层</h2><blockquote>
-<p>将比特封装成帧，差错检验</p>
-</blockquote>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://img2.imgtp.com/2024/04/22/oyGqVi5N.png"
-                      alt="屏幕截图 2024-04-22 133422.png"
-                ></p>
-<p>网卡在出厂时就具有唯一的MAC地址</p>
-<h2 id="7、物理层"><a href="#7、物理层" class="headerlink" title="7、物理层"></a>7、物理层</h2><blockquote>
-<p>将数据以比特（0，1）的形式发送出去</p>
-</blockquote>
-<h2 id="各层之间关系图"><a href="#各层之间关系图" class="headerlink" title="各层之间关系图"></a>各层之间关系图</h2><p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://img2.imgtp.com/2024/04/22/ZvR6tERQ.png"
-                      alt="屏幕截图 2024-04-22 134830.png"
-                ></p>
-<h2 id="数据传输流程"><a href="#数据传输流程" class="headerlink" title="数据传输流程"></a>数据传输流程</h2><p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://img2.imgtp.com/2024/04/22/TEsyrrAP.png"
-                      alt="屏幕截图 2024-04-22 135305.png"
-                ></p>
-<blockquote>
-<p>由于目标IP不是同一个网络下的，就需要经过默认网关</p>
-<p>客户端主机最初并不知道默认网关的MAC地址没办法封装成帧</p>
-<p>这时可以用ARP协议进行广播，找到网关IP的对应的MAC地址</p>
-</blockquote>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://img2.imgtp.com/2024/04/22/wI4fF8h8.png"
-                      alt="屏幕截图 2024-04-22 180942.png"
-                ></p>
-<blockquote>
-<p>默认网关查看发送来的帧，发现发送端的MAC地址</p>
-<p>再解封发现包里的IP地址，把包里的MAC地址和IP地址关联为一台主机，同时默认网关把自己的IP放进包里，再将自己的MAC地址封装到帧里，返回到客户端</p>
-</blockquote>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://www.freeimg.cn/i/2024/04/22/662639d27de04.png"
-                      alt="屏幕截图 2024-04-22 181746.png"
-                ></p>
+                     data-src="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412021858300.png"
+                      style="zoom:80%;" 
+                >
+
+<h2 id="6-2-装载的方式"><a href="#6-2-装载的方式" class="headerlink" title="6.2 装载的方式"></a>6.2 装载的方式</h2><p>程序在执行时所需要的指令和数据必须在内存中才能正常运行，最简单的方法就是将程序运行所需要的指令和数据全部装入内存，这样程序就可以顺利运行，这就是最简单的装入方法。但是很多情况下程序所需要的内存数量大于实际的物理内存数量，当内存的数量不够时，根本的解决方法就是添加内存，但是相对于磁盘来说，内存是昂贵且稀有的。后来研究发现，程序运行时是有局部性原理的，所以我们可以将程序最常用的部分驻留在内存中，而将不常用的部分留在磁盘里，这就是<strong>动态载入</strong>的基本原理。</p>
+<p><strong>覆盖载入</strong>和<strong>页映射</strong>是两种很典型的动态载入方法，它们原则上都是利用了程序的局部性原理。动态载入的思想就是程序用到哪个模块就将哪个模块装入内存，如果不用就暂时不装入，存放在磁盘中。</p>
+<h3 id="6-2-1-覆盖装入"><a href="#6-2-1-覆盖装入" class="headerlink" title="6.2.1 覆盖装入"></a>6.2.1 覆盖装入</h3><p>覆盖装入的方法把挖掘内存潜力的任务交给了程序员，程序员在编写程序的时候必须手工将程序分割成若干块，然后编写一个小的辅助代码来管理这些模块何时应该驻留在内存而何时应该被替换掉。这个小的辅助代码就是所谓的<strong>覆盖管理器</strong>。</p>
+<h3 id="6-2-2-页映射"><a href="#6-2-2-页映射" class="headerlink" title="6.2.2 页映射"></a>6.2.2 页映射</h3><p>页映射是虚拟存储机制的一部分，它随着虚拟存储的发明而诞生。页映射将内存和所有磁盘中的数据和指令按照”页“为单位划分成若干个页，以后所有的装载和操作的单位就是页。</p>
+<h2 id="6-3-从操作系统角度来看可执行文件的装载"><a href="#6-3-从操作系统角度来看可执行文件的装载" class="headerlink" title="6.3 从操作系统角度来看可执行文件的装载"></a>6.3 从操作系统角度来看可执行文件的装载</h2><h3 id="6-3-1-进程的建立"><a href="#6-3-1-进程的建立" class="headerlink" title="6.3.1 进程的建立"></a>6.3.1 进程的建立</h3><ul>
+<li>创建一个独立的虚拟地址空间。</li>
+<li>读取可执行文件头，并且建立虚拟空间与可执行文件的映射关系。</li>
+<li>将CPU的指令寄存器设置成可执行文件的入口地址，启动运行。</li>
+</ul>
+<h2 id="6-4-进程虚存空间分布"><a href="#6-4-进程虚存空间分布" class="headerlink" title="6.4 进程虚存空间分布"></a>6.4 进程虚存空间分布</h2><h3 id="6-4-1-ELF文件链接视图和执行视图"><a href="#6-4-1-ELF文件链接视图和执行视图" class="headerlink" title="6.4.1 ELF文件链接视图和执行视图"></a>6.4.1 ELF文件链接视图和执行视图</h3><p>当段的数量增多时，就会产生空间浪费的问题。因为我们知道，ELF文件在被映射时，以系统的页长度作为单位的，那么每个段在映射时的长度应该都是系统页长度的整数倍；如果不是，那么多余部分也将占用一个页。一个ELF文件中往往有十几个段，那么内存空间的浪费是可想而知的。</p>
+<p>当我们站在操作系统装载可执行文件的角度看问题时，可以发现它实际上并不关心可执行文件各个段所包含的实际内容，操作系统只关心一些跟装载相关的问题，最主要的就是段的权限（可读、可写、可执行）。ELF文件中，段的权限往往只有为数不多的几种组合，基本上是三种：</p>
+<ul>
+<li>以代码段为代表的权限为可读可执行的段</li>
+<li>以数据段和BSS段为代表的权限为可读可写的段</li>
+<li>以只读数据为代表的权限为只读的段</li>
+</ul>
+<p>那么我们可以找到一个很简单的方案就是：<strong>具有相同权限的段，把它们合并到一起当作一个段的映射</strong>。</p>
+<p>ELF可执行文件引入了一个概念叫”Segment“，一个”Segment“包含一个或多个属性类似的”Section“。”Segment“的概念实践上是从装载的角度重新划分了ELF的各个段。在将目标文件链接成可执行文件的时候，链接器会尽量把相同属性的段在同一空间。在ELF中把这些属性相同、又连在一起的段叫做一个”Segment“，而系统正是按照”Segment“而不是”Section“来映射可执行文件的。</p>
 
         </div>
 
@@ -421,18 +345,18 @@
             <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
                 <div class="article-copyright-info-container">
     <ul>
-        <li><strong>标题:</strong> OSI七层模型</li>
+        <li><strong>标题:</strong> 第六章 可执行文件的装载与进程</li>
         <li><strong>作者:</strong> Wi1lings</li>
         <li><strong>创建于
-                :</strong> 2024-04-22 13:24:45</li>
+                :</strong> 2024-12-03 15:41:45</li>
         
             <li>
                 <strong>更新于
-                    :</strong> 2024-04-22 18:22:15
+                    :</strong> 2024-12-03 15:43:45
             </li>
         
         <li>
-            <strong>链接:</strong> https://wi1lings.github.io/2024/04/22/OSI七层模型/
+            <strong>链接:</strong> https://wi1lings.github.io/2024/12/03/第六章 可执行文件的装载与进程/
         </li>
         <li>
             <strong>
@@ -454,7 +378,7 @@
             <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
                 
                     <li class="tag-item mx-0.5">
-                        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">#计算机网络</a>&nbsp;
+                        <a href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">#程序员的自我修养</a>&nbsp;
                     </li>
                 
             </ul>
@@ -468,13 +392,13 @@
                     <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
                         <a class="prev"
                         rel="prev"
-                        href="/2024/04/22/IPv4%E5%9C%B0%E5%9D%80%E5%92%8C%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81/"
+                        href="/2024/12/03/%E7%AC%AC%E5%85%AB%E7%AB%A0%20Linux%E5%85%B1%E4%BA%AB%E5%BA%93%E7%9A%84%E7%BB%84%E7%BB%87/"
                         >
                             <span class="left arrow-icon flex justify-center items-center">
                                 <i class="fa-solid fa-chevron-left"></i>
                             </span>
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">IPv4地址和子网掩码</span>
+                                <span class="post-nav-title-item">第八章 Linux共享库的组织</span>
                                 <span class="post-nav-item">上一篇</span>
                             </span>
                         </a>
@@ -484,10 +408,10 @@
                     <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
                         <a class="next"
                         rel="next"
-                        href="/2024/04/21/File-Include/"
+                        href="/2024/12/03/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5/"
                         >
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">File_Include</span>
+                                <span class="post-nav-title-item">第四章 静态链接</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex justify-center items-center">
@@ -551,8 +475,8 @@
             <div class="post-toc-wrap">
     <div class="post-toc">
         <div class="toc-title">目录</div>
-        <div class="page-title">OSI七层模型</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OSI%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B"><span class="nav-text">OSI七层模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%BA%94%E7%94%A8%E5%B1%82"><span class="nav-text">1、应用层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E8%A1%A8%E7%A4%BA%E5%B1%82"><span class="nav-text">2、表示层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E4%BC%9A%E8%AF%9D%E5%B1%82"><span class="nav-text">3、会话层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="nav-text">4、传输层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP%E4%BC%A0%E8%BE%93"><span class="nav-text">TCP传输</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E3%80%81%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="nav-text">5、网络层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6%E3%80%81%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="nav-text">6、数据链路层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7%E3%80%81%E7%89%A9%E7%90%86%E5%B1%82"><span class="nav-text">7、物理层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%84%E5%B1%82%E4%B9%8B%E9%97%B4%E5%85%B3%E7%B3%BB%E5%9B%BE"><span class="nav-text">各层之间关系图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%B5%81%E7%A8%8B"><span class="nav-text">数据传输流程</span></a></li></ol></li></ol>
+        <div class="page-title">第六章 可执行文件的装载与进程</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-%E8%BF%9B%E7%A8%8B%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="nav-text">6.1 进程虚拟地址空间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-1-32%E4%BD%8Dlinux%E5%AF%BB%E5%9D%80%E7%A9%BA%E9%97%B4%E5%A4%A7%E8%87%B4%E5%88%86%E5%B8%83"><span class="nav-text">6.1.1 32位linux寻址空间大致分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-2-64%E4%BD%8Dlinux%E5%AF%BB%E5%9D%80%E7%A9%BA%E9%97%B4%E5%A4%A7%E8%87%B4%E5%88%86%E5%B8%83"><span class="nav-text">6.1.2 64位linux寻址空间大致分布</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-%E8%A3%85%E8%BD%BD%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-text">6.2 装载的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-1-%E8%A6%86%E7%9B%96%E8%A3%85%E5%85%A5"><span class="nav-text">6.2.1 覆盖装入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-2-%E9%A1%B5%E6%98%A0%E5%B0%84"><span class="nav-text">6.2.2 页映射</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-%E4%BB%8E%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%A7%92%E5%BA%A6%E6%9D%A5%E7%9C%8B%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E8%A3%85%E8%BD%BD"><span class="nav-text">6.3 从操作系统角度来看可执行文件的装载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-1-%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%BB%BA%E7%AB%8B"><span class="nav-text">6.3.1 进程的建立</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-%E8%BF%9B%E7%A8%8B%E8%99%9A%E5%AD%98%E7%A9%BA%E9%97%B4%E5%88%86%E5%B8%83"><span class="nav-text">6.4 进程虚存空间分布</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-1-ELF%E6%96%87%E4%BB%B6%E9%93%BE%E6%8E%A5%E8%A7%86%E5%9B%BE%E5%92%8C%E6%89%A7%E8%A1%8C%E8%A7%86%E5%9B%BE"><span class="nav-text">6.4.1 ELF文件链接视图和执行视图</span></a></li></ol></li></ol>
 
     </div>
 </div>
@@ -585,7 +509,7 @@
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        共撰写了 13 篇文章
+                        共撰写了 6 篇文章
                     </span>
                     
                 </p>

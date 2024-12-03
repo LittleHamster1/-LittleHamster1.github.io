@@ -13,22 +13,22 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://example.com/2024/04/18/sql注入绕过方法总结/"/>
+    <link rel="canonical" href="http://example.com/2024/12/03/第八章 linux共享库的组织/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="SQL注入绕过一、注释符号绕过常用注释符 1234-- 注释内容# 注释内容&#x2F;*注释内容*&#x2F;;  二、大小写绕过 常用与waf的正则对大小不敏感的情况  三、内联注释绕过 内联注释就是把一些特有的仅在mysql上的语句放在&#x2F;*! …*&#x2F;中，这样这些语句在其他数据库中是不执行的，但在mysql中会执行  12egmysql&gt;select * from users where">
+        <meta name="description" content="8.1 共享库版本8.1.1 共享库的兼容性共享库的开发者会不断地更新共享库的版本，以修正原有的Bug、增加新的功能或改进性能等。最简单的情况下，共享库的更新可以被分为两类：  兼容更新。所有的更新只是在原有的共享库基础上添加一些内容，所有原有的接口都保持不变 不兼容更新。共享库更新改变了原有的接口。使用该共享库原有接口的程序可能不能运行或者运行不正常。  8.1.2 共享库版本的命名规则Linu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sql注入绕过方法总结">
-<meta property="og:url" content="http://example.com/2024/04/18/sql%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:title" content="第八章 Linux共享库的组织">
+<meta property="og:url" content="http://example.com/2024/12/03/%E7%AC%AC%E5%85%AB%E7%AB%A0%20Linux%E5%85%B1%E4%BA%AB%E5%BA%93%E7%9A%84%E7%BB%84%E7%BB%87/index.html">
 <meta property="og:site_name" content="Wi1lings">
-<meta property="og:description" content="SQL注入绕过一、注释符号绕过常用注释符 1234-- 注释内容# 注释内容&#x2F;*注释内容*&#x2F;;  二、大小写绕过 常用与waf的正则对大小不敏感的情况  三、内联注释绕过 内联注释就是把一些特有的仅在mysql上的语句放在&#x2F;*! …*&#x2F;中，这样这些语句在其他数据库中是不执行的，但在mysql中会执行  12egmysql&gt;select * from users where">
+<meta property="og:description" content="8.1 共享库版本8.1.1 共享库的兼容性共享库的开发者会不断地更新共享库的版本，以修正原有的Bug、增加新的功能或改进性能等。最简单的情况下，共享库的更新可以被分为两类：  兼容更新。所有的更新只是在原有的共享库基础上添加一些内容，所有原有的接口都保持不变 不兼容更新。共享库更新改变了原有的接口。使用该共享库原有接口的程序可能不能运行或者运行不正常。  8.1.2 共享库版本的命名规则Linu">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-04-18T13:44:14.000Z">
-<meta property="article:modified_time" content="2024-04-18T14:00:22.104Z">
+<meta property="article:published_time" content="2024-12-03T07:41:45.000Z">
+<meta property="article:modified_time" content="2024-12-03T07:44:31.489Z">
 <meta property="article:author" content="Wi1lings">
-<meta property="article:tag" content="web">
+<meta property="article:tag" content="程序员的自我修养">
 <meta name="twitter:card" content="summary">
     
     
@@ -41,7 +41,7 @@
     
     <title>
         
-            sql注入绕过方法总结 | Wi1lings
+            第八章 Linux共享库的组织 | Wi1lings
         
     </title>
 
@@ -202,7 +202,7 @@
 
         <div class="statistics flex justify-around my-2.5">
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">3</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">1</div>
         <div class="label text-third-text-color text-sm">标签</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
@@ -210,7 +210,7 @@
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">13</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">6</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -236,7 +236,7 @@
         <div class="article-title relative w-full">
             
                 <div class="w-full flex items-center pt-6 justify-start">
-                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">sql注入绕过方法总结</h1>
+                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">第八章 Linux共享库的组织</h1>
                 </div>
             
             </div>
@@ -250,22 +250,22 @@
                     <div class="author flex items-center">
                         <span class="name text-default-text-color text-lg font-semibold">Wi1lings</span>
                         
-                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv2</span>
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv1</span>
                         
                     </div>
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="desktop">2024-04-18 21:44:14</span>
-        <span class="mobile">2024-04-18 21:44:14</span>
+        <span class="desktop">2024-12-03 15:41:45</span>
+        <span class="mobile">2024-12-03 15:41:45</span>
         <span class="hover-info">创建</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-04-18 22:22</span>
-            <span class="mobile">2024-04-18 22:22</span>
+            <span class="desktop">2024-12-03 15:44:31</span>
+            <span class="mobile">2024-12-03 15:44:31</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -277,7 +277,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/web/">web</a>&nbsp;
+                        <a href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">程序员的自我修养</a>&nbsp;
                     </li>
                 
             </ul>
@@ -303,40 +303,26 @@
 
 
         <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
-            <h1 id="SQL注入绕过"><a href="#SQL注入绕过" class="headerlink" title="SQL注入绕过"></a>SQL注入绕过</h1><h2 id="一、注释符号绕过"><a href="#一、注释符号绕过" class="headerlink" title="一、注释符号绕过"></a>一、注释符号绕过</h2><p>常用注释符</p>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-- 注释内容</span><br><span class="line"># 注释内容</span><br><span class="line">/*注释内容*/</span><br><span class="line">;</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="二、大小写绕过"><a href="#二、大小写绕过" class="headerlink" title="二、大小写绕过"></a>二、大小写绕过</h2><blockquote>
-<p>常用与<code>waf</code>的正则对大小不敏感的情况</p>
-</blockquote>
-<h2 id="三、内联注释绕过"><a href="#三、内联注释绕过" class="headerlink" title="三、内联注释绕过"></a>三、内联注释绕过</h2><blockquote>
-<p>内联注释就是把一些特有的仅在mysql上的语句放在&#x2F;*! …*&#x2F;中，这样这些语句在其他数据库中是不执行的，但在mysql中会执行</p>
-</blockquote>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eg</span><br><span class="line">mysql&gt;select * from users where id = -1 union /*!select*/ 1,2,3;</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="四、双写关键字绕过"><a href="#四、双写关键字绕过" class="headerlink" title="四、双写关键字绕过"></a>四、双写关键字绕过</h2><blockquote>
-<p>在一些简单的waf中，将关键字select等只用replace()函数置换为空，这时候可以用双写关键字绕过。例如select变成seleselectct，在经过waf处理后变成select，从而达到绕过目的</p>
-</blockquote>
-<h2 id="五、特殊编码绕过"><a href="#五、特殊编码绕过" class="headerlink" title="五、特殊编码绕过"></a>五、特殊编码绕过</h2><ul>
-<li>十六进制绕过</li>
-</ul>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eg</span><br><span class="line">select * from users where username = 0x7465737431;</span><br></pre></td></tr></table></figure></div>
-
+            <h2 id="8-1-共享库版本"><a href="#8-1-共享库版本" class="headerlink" title="8.1 共享库版本"></a>8.1 共享库版本</h2><h3 id="8-1-1-共享库的兼容性"><a href="#8-1-1-共享库的兼容性" class="headerlink" title="8.1.1 共享库的兼容性"></a>8.1.1 共享库的兼容性</h3><p>共享库的开发者会不断地更新共享库的版本，以修正原有的Bug、增加新的功能或改进性能等。最简单的情况下，共享库的更新可以被分为两类：</p>
 <ul>
-<li>ascii编码绕过</li>
+<li><strong>兼容更新</strong>。所有的更新只是在原有的共享库基础上添加一些内容，所有原有的接口都保持不变</li>
+<li><strong>不兼容更新</strong>。共享库更新改变了原有的接口。使用该共享库原有接口的程序可能不能运行或者运行不正常。</li>
 </ul>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eg</span><br><span class="line">Test == char(101) + char(97) + char(115) + char(116)</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="六、空格过滤绕过"><a href="#六、空格过滤绕过" class="headerlink" title="六、空格过滤绕过"></a>六、空格过滤绕过</h2><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/**/</span><br><span class="line">()</span><br><span class="line">回车(URL编码中的%0A)</span><br><span class="line">`</span><br><span class="line">tab</span><br><span class="line">两个空格</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="七、-过滤绕过"><a href="#七、-过滤绕过" class="headerlink" title="七、&#x3D;过滤绕过"></a>七、&#x3D;过滤绕过</h2><blockquote>
-<p>不加通配符的like与&#x3D;作用相同</p>
+<h3 id="8-1-2-共享库版本的命名规则"><a href="#8-1-2-共享库版本的命名规则" class="headerlink" title="8.1.2 共享库版本的命名规则"></a>8.1.2 共享库版本的命名规则</h3><p>Linux又一套规则来命名系统中的每一个共享库</p>
+<blockquote>
+<p>libname.so.x.y.z</p>
 </blockquote>
-<h2 id="八、过滤大于小于号"><a href="#八、过滤大于小于号" class="headerlink" title="八、过滤大于小于号"></a>八、过滤大于小于号</h2><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">使用以下函数代替</span><br><span class="line">greatest()</span><br><span class="line">least()</span><br><span class="line">strcmp()</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="九、过滤引号绕过"><a href="#九、过滤引号绕过" class="headerlink" title="九、过滤引号绕过"></a>九、过滤引号绕过</h2><ul>
-<li>使用十六进制</li>
-<li>宽字节</li>
+<p>最前面使用前缀”lib”、中间是库的名字和后缀”.so”，最后面跟着的三个数字组成的版本号。“x”表示<strong>主版本号</strong>，“y”表示<strong>次版本号</strong>，“z”表示<strong>发布版本号</strong>。</p>
+<ul>
+<li><strong>主版本号</strong> 表示库的重大升级，不用主版本号的库之间是不兼容的，依赖于旧的版本号的程序需要改动相应的部分，并且重新编译，才可以在新的共享库中运行；或者，系统必须保留旧版的共享库，使得那些依赖于旧版共享库的程序能够正常运行</li>
+<li><strong>次版本号</strong> 表示库的增量升级，即增加一些新的接口符号，且原来的符号不变，在主版本号相同的情况下，高的次版本号的库向后兼容低的次版本号的库。</li>
+<li><strong>发布版本号</strong> 表示库的一些错误的修正、性能的改进等，并不添加任何新的接口，也不对接口进行更改。相同的主版本号、次版本号，不同的发布版本号之间完全兼容。</li>
+</ul>
+<h2 id="8-2-共享库系统路径"><a href="#8-2-共享库系统路径" class="headerlink" title="8.2 共享库系统路径"></a>8.2 共享库系统路径</h2><p>目前大多数包括Linux在内的开源操作系统都遵循一个FHS的标准，该标准规定了一个系统中文件应该如何存放，包括各个目录的结构、组织和作用。FHS规定，一个系统中主要有两个存放共享库的位置，它们分别如下：</p>
+<ul>
+<li>&#x2F;lib，这个位置主要存放系统中最为关键和基础的共享库，比如动态链接器、C语言运行库、数学库等，这些库主要是那些&#x2F;bin、&#x2F;sbin下的程序所需要使用的库，还有系统启动时需要用的库</li>
+<li>&#x2F;usr&#x2F;lib，这个目录下主要保存的是一些非系统运行时所需要的关键性的共享库，主要是一些开发时用到的共享库，这些共享库一般不会被用户的程序或者shell脚本直接用到。这个目录下还包含了开发时可能会用到的静态库、目标文件等。</li>
+<li>&#x2F;usr&#x2F;local&#x2F;lib，这个目录用来放置一些跟操作系统本身并不十分相关的库。</li>
 </ul>
 
         </div>
@@ -345,18 +331,18 @@
             <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
                 <div class="article-copyright-info-container">
     <ul>
-        <li><strong>标题:</strong> sql注入绕过方法总结</li>
+        <li><strong>标题:</strong> 第八章 Linux共享库的组织</li>
         <li><strong>作者:</strong> Wi1lings</li>
         <li><strong>创建于
-                :</strong> 2024-04-18 21:44:14</li>
+                :</strong> 2024-12-03 15:41:45</li>
         
             <li>
                 <strong>更新于
-                    :</strong> 2024-04-18 22:00:22
+                    :</strong> 2024-12-03 15:44:31
             </li>
         
         <li>
-            <strong>链接:</strong> https://wi1lings.github.io/2024/04/18/sql注入绕过方法总结/
+            <strong>链接:</strong> https://wi1lings.github.io/2024/12/03/第八章 Linux共享库的组织/
         </li>
         <li>
             <strong>
@@ -378,7 +364,7 @@
             <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
                 
                     <li class="tag-item mx-0.5">
-                        <a href="/tags/web/">#web</a>&nbsp;
+                        <a href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">#程序员的自我修养</a>&nbsp;
                     </li>
                 
             </ul>
@@ -392,13 +378,13 @@
                     <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
                         <a class="prev"
                         rel="prev"
-                        href="/2024/04/21/RCE%E6%BC%8F%E6%B4%9E/"
+                        href="/2024/12/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E7%BC%96%E8%AF%91%E4%B8%8E%E9%93%BE%E6%8E%A5/"
                         >
                             <span class="left arrow-icon flex justify-center items-center">
                                 <i class="fa-solid fa-chevron-left"></i>
                             </span>
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">RCE漏洞</span>
+                                <span class="post-nav-title-item">第二章 编译与链接</span>
                                 <span class="post-nav-item">上一篇</span>
                             </span>
                         </a>
@@ -408,10 +394,10 @@
                     <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
                         <a class="next"
                         rel="next"
-                        href="/2024/04/10/PWN-%E6%A0%88%E5%88%A9%E7%94%A8%E4%B9%8B%E5%AF%B9%E6%8A%97linux%E4%BF%9D%E6%8A%A4/"
+                        href="/2024/12/03/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E8%A3%85%E8%BD%BD%E4%B8%8E%E8%BF%9B%E7%A8%8B/"
                         >
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">PWN --栈利用之对抗linux保护</span>
+                                <span class="post-nav-title-item">第六章 可执行文件的装载与进程</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex justify-center items-center">
@@ -475,8 +461,8 @@
             <div class="post-toc-wrap">
     <div class="post-toc">
         <div class="toc-title">目录</div>
-        <div class="page-title">sql注入绕过方法总结</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87"><span class="nav-text">SQL注入绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%B3%A8%E9%87%8A%E7%AC%A6%E5%8F%B7%E7%BB%95%E8%BF%87"><span class="nav-text">一、注释符号绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%A4%A7%E5%B0%8F%E5%86%99%E7%BB%95%E8%BF%87"><span class="nav-text">二、大小写绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%86%85%E8%81%94%E6%B3%A8%E9%87%8A%E7%BB%95%E8%BF%87"><span class="nav-text">三、内联注释绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%8F%8C%E5%86%99%E5%85%B3%E9%94%AE%E5%AD%97%E7%BB%95%E8%BF%87"><span class="nav-text">四、双写关键字绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E7%89%B9%E6%AE%8A%E7%BC%96%E7%A0%81%E7%BB%95%E8%BF%87"><span class="nav-text">五、特殊编码绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4%E7%BB%95%E8%BF%87"><span class="nav-text">六、空格过滤绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81-%E8%BF%87%E6%BB%A4%E7%BB%95%E8%BF%87"><span class="nav-text">七、&#x3D;过滤绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E8%BF%87%E6%BB%A4%E5%A4%A7%E4%BA%8E%E5%B0%8F%E4%BA%8E%E5%8F%B7"><span class="nav-text">八、过滤大于小于号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%9D%E3%80%81%E8%BF%87%E6%BB%A4%E5%BC%95%E5%8F%B7%E7%BB%95%E8%BF%87"><span class="nav-text">九、过滤引号绕过</span></a></li></ol></li></ol>
+        <div class="page-title">第八章 Linux共享库的组织</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-%E5%85%B1%E4%BA%AB%E5%BA%93%E7%89%88%E6%9C%AC"><span class="nav-text">8.1 共享库版本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-1-%E5%85%B1%E4%BA%AB%E5%BA%93%E7%9A%84%E5%85%BC%E5%AE%B9%E6%80%A7"><span class="nav-text">8.1.1 共享库的兼容性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-2-%E5%85%B1%E4%BA%AB%E5%BA%93%E7%89%88%E6%9C%AC%E7%9A%84%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99"><span class="nav-text">8.1.2 共享库版本的命名规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-%E5%85%B1%E4%BA%AB%E5%BA%93%E7%B3%BB%E7%BB%9F%E8%B7%AF%E5%BE%84"><span class="nav-text">8.2 共享库系统路径</span></a></li></ol>
 
     </div>
 </div>
@@ -509,7 +495,7 @@
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        共撰写了 13 篇文章
+                        共撰写了 6 篇文章
                     </span>
                     
                 </p>

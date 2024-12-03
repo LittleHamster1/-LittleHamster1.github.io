@@ -13,23 +13,27 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://example.com/2024/04/26/pwn溢出技巧：orw解题技巧/"/>
+    <link rel="canonical" href="http://example.com/2024/12/03/第二章 编译与链接/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="ORW ORW类题目是指程序开了沙箱保护，禁用了一些函数的调用（如 execve等），使得我们并不能正常 get shell，只能通过ROP的方式调用open, read, write的来读取并打印flag 内容  123fd &#x3D; open(&#x27;&#x2F;flag&#x27;,&#x27;r&#x27;)read(fd,buf,len)write(1,buf,len)  解决方法1、查看沙箱在实战">
+        <meta name="description" content="2.1 被隐藏的过程在将源码变为可执行文件的过程中，事实上经历了预处理、编译、汇编和链接这4个步骤，如图2.1所示。   2.1.1 预处理（预编译）首先将源代码文件和相关的头文件预编译成一个.i文件（c语言），第一步预编译的过程相当于如下命令（-E相当于只进行预编译） 1$gcc -E hello.c -o hello.i  或者 1$cpp hello.c &gt; hello.i  预编译过">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PWN溢出技巧：ORW解题技巧">
-<meta property="og:url" content="http://example.com/2024/04/26/PWN%E6%BA%A2%E5%87%BA%E6%8A%80%E5%B7%A7%EF%BC%9AORW%E8%A7%A3%E9%A2%98%E6%8A%80%E5%B7%A7/index.html">
+<meta property="og:title" content="第二章 编译与链接">
+<meta property="og:url" content="http://example.com/2024/12/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E7%BC%96%E8%AF%91%E4%B8%8E%E9%93%BE%E6%8E%A5/index.html">
 <meta property="og:site_name" content="Wi1lings">
-<meta property="og:description" content="ORW ORW类题目是指程序开了沙箱保护，禁用了一些函数的调用（如 execve等），使得我们并不能正常 get shell，只能通过ROP的方式调用open, read, write的来读取并打印flag 内容  123fd &#x3D; open(&#x27;&#x2F;flag&#x27;,&#x27;r&#x27;)read(fd,buf,len)write(1,buf,len)  解决方法1、查看沙箱在实战">
+<meta property="og:description" content="2.1 被隐藏的过程在将源码变为可执行文件的过程中，事实上经历了预处理、编译、汇编和链接这4个步骤，如图2.1所示。   2.1.1 预处理（预编译）首先将源代码文件和相关的头文件预编译成一个.i文件（c语言），第一步预编译的过程相当于如下命令（-E相当于只进行预编译） 1$gcc -E hello.c -o hello.i  或者 1$cpp hello.c &gt; hello.i  预编译过">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-04-26T05:59:41.000Z">
-<meta property="article:modified_time" content="2024-04-26T07:03:31.711Z">
+<meta property="og:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412011301317.png">
+<meta property="og:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412011348026.png">
+<meta property="og:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412011414333.png">
+<meta property="article:published_time" content="2024-12-03T07:41:45.000Z">
+<meta property="article:modified_time" content="2024-12-03T07:44:07.119Z">
 <meta property="article:author" content="Wi1lings">
-<meta property="article:tag" content="pwn">
+<meta property="article:tag" content="程序员的自我修养">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412011301317.png">
     
     
     <!--- Icon Part-->
@@ -41,7 +45,7 @@
     
     <title>
         
-            PWN溢出技巧：ORW解题技巧 | Wi1lings
+            第二章 编译与链接 | Wi1lings
         
     </title>
 
@@ -202,7 +206,7 @@
 
         <div class="statistics flex justify-around my-2.5">
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">3</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">1</div>
         <div class="label text-third-text-color text-sm">标签</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
@@ -210,7 +214,7 @@
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">13</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">6</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -236,7 +240,7 @@
         <div class="article-title relative w-full">
             
                 <div class="w-full flex items-center pt-6 justify-start">
-                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">PWN溢出技巧：ORW解题技巧</h1>
+                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">第二章 编译与链接</h1>
                 </div>
             
             </div>
@@ -250,22 +254,22 @@
                     <div class="author flex items-center">
                         <span class="name text-default-text-color text-lg font-semibold">Wi1lings</span>
                         
-                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv2</span>
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv1</span>
                         
                     </div>
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="desktop">2024-04-26 13:59:41</span>
-        <span class="mobile">2024-04-26 13:59:41</span>
+        <span class="desktop">2024-12-03 15:41:45</span>
+        <span class="mobile">2024-12-03 15:41:45</span>
         <span class="hover-info">创建</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-04-26 15:03:31</span>
-            <span class="mobile">2024-04-26 15:03:31</span>
+            <span class="desktop">2024-12-03 15:44:07</span>
+            <span class="mobile">2024-12-03 15:44:07</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -277,7 +281,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/pwn/">pwn</a>&nbsp;
+                        <a href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">程序员的自我修养</a>&nbsp;
                     </li>
                 
             </ul>
@@ -303,15 +307,77 @@
 
 
         <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
-            <h1 id="ORW"><a href="#ORW" class="headerlink" title="ORW"></a>ORW</h1><blockquote>
-<p><code>ORW</code>类题目是指程序开了沙箱保护，禁用了一些函数的调用（如 <code>execve</code>等），使得我们并不能正常 <code>get shell</code>，只能通过<code>ROP</code>的方式调用<code>open</code>, <code>read</code>, <code>write</code>的来读取并打印<code>flag</code> 内容</p>
+            <h2 id="2-1-被隐藏的过程"><a href="#2-1-被隐藏的过程" class="headerlink" title="2.1 被隐藏的过程"></a>2.1 被隐藏的过程</h2><p>在将源码变为可执行文件的过程中，事实上经历了<b>预处理</b>、<b>编译</b>、<b>汇编</b>和<b>链接</b>这4个步骤，如图2.1所示。</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412011301317.png"
+                      style="zoom: 80%;" 
+                >
+
+<h3 id="2-1-1-预处理（预编译）"><a href="#2-1-1-预处理（预编译）" class="headerlink" title="2.1.1 预处理（预编译）"></a>2.1.1 预处理（预编译）</h3><p>首先将源代码文件和相关的头文件预编译成一个.i文件（c语言），第一步预编译的过程相当于如下命令（-E相当于只进行预编译）</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$gcc -E hello.c -o hello.i</span><br></pre></td></tr></table></figure></div>
+
+<p>或者</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$cpp hello.c &gt; hello.i</span><br></pre></td></tr></table></figure></div>
+
+<p>预编译过程主要处理源代码文件中那些以“#”开头的预编译指令，如“#include”、“#define”等，主要规则如下：</p>
+<ul>
+<li><p>将所有的“#define”删除，并且展开所有的宏定义。</p>
+</li>
+<li><p>处理所有的条件预编译指令，如“#if”、“#ifdef”、“#elif”、“#else”、“#endif”等。</p>
+</li>
+<li><p>处理“#include”预编译指令，将包含的文件插入到该预编译指令的位置，注意这个过程是递归进行的，也就是说被包含的文件可能还包含其他文件。</p>
+</li>
+<li><p>删除所有注释“&#x2F;&#x2F;”和“&#x2F;* *&#x2F;”。</p>
+</li>
+<li><p>添加行号和文件名标识，比如“#2” “hello.c” 2，以便于编译时编译器产生调试用的行号信息及用于编译时产生编译错误或者警告时能够显示行号</p>
+</li>
+<li><p>保留所有的“#pragma”编译器指令，因为编译器需要使用它们</p>
+</li>
+</ul>
+<h3 id="2-1-2-编译"><a href="#2-1-2-编译" class="headerlink" title="2.1.2 编译"></a>2.1.2 编译</h3><p>编译的过程就是把预处理完的文件进行一系列的词法分析、语法分析、语义分析及优化后生产相应的汇编代码文件，上面的编译过程相当于如下命令：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$gcc -S hello.i -o hello.s</span><br></pre></td></tr></table></figure></div>
+
+<p>现在版本的GCC把预编译和编译两个步骤合并成一个步骤，使用一个叫cc1的程序来完成这两个步骤，我们也可以直接调用这个程序来完成它</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$/usr/lib/gcc/i486-linux-gnu/cc1 hello.c</span><br></pre></td></tr></table></figure></div>
+
+<p>或者直接使用如下命令</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$gcc -S hello.c -o hello.s</span><br></pre></td></tr></table></figure></div>
+
+<p><b>gcc这个命令只是这些后台程序的包装，它会根据不同的参数要求去调用预编译编译程序cc1、汇编器as、连接器ld</b></p>
+<h3 id="2-1-3-汇编"><a href="#2-1-3-汇编" class="headerlink" title="2.1.3 汇编"></a>2.1.3 汇编</h3><p>汇编器是将汇编代码转变成机器可以执行的指令，每一个汇编语句几乎都对应着一条机器指令。所以汇编器的汇编过程相对于编译器来讲比较简单，它没有复杂的语法，也没有语义，也不需要做指令优化，只是根据汇编指令和机器指令的对照表一一翻译就可以了，“汇编”这个名字也来源于此。上面的汇编过程我们可以用汇编器as来完成：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$as hello.s -o hello.o</span><br></pre></td></tr></table></figure></div>
+
+<p>或者</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$gcc -c hello.c -o hello.o</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="2-1-4-链接"><a href="#2-1-4-链接" class="headerlink" title="2.1.4 链接"></a>2.1.4 链接</h3><p>如何使用ld程序产生一个能够正常运行的HelloWorld程序：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ld -static /usr/lib/crtl.o /usr/lib/srti.o /usr/lib/gcc/i486-linux-gnu/4.1.3/crtbeginT.o -L /usr/lib/gcc/i486-linux-gnu/4.1.3 -L /lib hello.o --start-group -lgcc -lgcc_eh -lc --end-group /usr/lib/gcc/i486-linux-gnu/4.1.3/crtend.o /usr/lib/crtn.o</span><br></pre></td></tr></table></figure></div>
+
+<p>如果把路径去掉则为</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ld -static crtl.o crti.o crtbeginT.o hello.o --start-group -lgcc -lgcc_eh -lc --end-group crtend.o crtn.o</span><br></pre></td></tr></table></figure></div>
+
+<p>上述过程涉及了编译、链接和库，甚至是操作系统的一些很底层的内容，在分析这些内容之前，我们需要先了解编译器担任了一个什么样的角色</p>
+<h2 id="2-2-编译器做了什么"><a href="#2-2-编译器做了什么" class="headerlink" title="2.2 编译器做了什么"></a>2.2 编译器做了什么</h2><p>最直观的角度来讲，编译器就是将高级语言翻译成机器语言的一个工具。回到编译器本身的职责上来，编译过程一般可以分为6步：<b>扫描、语法分析、语义分析、源代码优化、代码生成和目标代码优化</b>，整个过程如图2.2所示：</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412011348026.png"
+                      style="zoom: 67%;" 
+                >
+
+<h2 id="2-3-模块的拼装、静态链接"><a href="#2-3-模块的拼装、静态链接" class="headerlink" title="2.3 模块的拼装、静态链接"></a>2.3 模块的拼装、静态链接</h2><p>链接的过程主要包括<b>地址和空间分配</b>、<b>符号决议</b>和重定位等这些步骤</p>
+<blockquote>
+<p>符号决议有时候也被称为符号绑定，名称绑定等，大体意思上都一样，但从细节上来区分，它们之间还是存在一定的区别，比如“决议”更倾向于静态链接、而“绑定”更倾向于动态链接，即它们所使用的范围不一样。在静态链接我们一般使用符号决议。</p>
 </blockquote>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fd = open(&#x27;/flag&#x27;,&#x27;r&#x27;)</span><br><span class="line">read(fd,buf,len)</span><br><span class="line">write(1,buf,len)</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><h2 id="1、查看沙箱"><a href="#1、查看沙箱" class="headerlink" title="1、查看沙箱"></a>1、查看沙箱</h2><p>在实战中我们可以通过 <code>seccomp-tools</code>来查看程序是否启用了沙箱, <code>seccomp-tools</code>工具安装方法如下：</p>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gcc ruby-dev</span><br><span class="line">gem install seccomp-tools</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="2、利用read-open-write读取flag"><a href="#2、利用read-open-write读取flag" class="headerlink" title="2、利用read,open,write读取flag"></a>2、利用read,open,write读取flag</h2><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#fd = open(&#x27;/home/orw/flag&#x27;,0) </span><br><span class="line">s = &#x27;&#x27;&#x27; xor edx,edx; mov ecx,0; mov ebx,0x804a094; mov eax,5; int 0x80; &#x27;&#x27;&#x27;</span><br><span class="line"></span><br><span class="line">#read(fd,0x804a094,0x20) </span><br><span class="line">s += &#x27;&#x27;&#x27; mov edx,0x40; mov ecx,ebx; mov ebx,eax; mov eax,3; int 0x80; &#x27;&#x27;&#x27;</span><br><span class="line"></span><br><span class="line">#write(1,0x804a094,0x20) </span><br><span class="line">s += &#x27;&#x27;&#x27; mov edx,0x40; mov ebx,1; mov eax,4 int 0x80; &#x27;&#x27;&#x27;</span><br><span class="line">pd = asm(s)+b&#x27;/home/orw/flag\x00&#x27;</span><br></pre></td></tr></table></figure></div>
+<p>最基本的链接过程如下图所示，每个模块的源代码文件经过编译器编译成目标文件，目标文件和库一起链接形成最终的可执行文件，而最常见的库就是<b>运行时库</b>，它是支撑程序运行的基本函数的集合。库其实是一组目标文件的包，就是一些最常用的代码编译后打包存放。</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412011414333.png"
+                      style="zoom:67%;" 
+                >
 
 
         </div>
@@ -320,18 +386,18 @@
             <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
                 <div class="article-copyright-info-container">
     <ul>
-        <li><strong>标题:</strong> PWN溢出技巧：ORW解题技巧</li>
+        <li><strong>标题:</strong> 第二章 编译与链接</li>
         <li><strong>作者:</strong> Wi1lings</li>
         <li><strong>创建于
-                :</strong> 2024-04-26 13:59:41</li>
+                :</strong> 2024-12-03 15:41:45</li>
         
             <li>
                 <strong>更新于
-                    :</strong> 2024-04-26 15:03:31
+                    :</strong> 2024-12-03 15:44:07
             </li>
         
         <li>
-            <strong>链接:</strong> https://wi1lings.github.io/2024/04/26/PWN溢出技巧：ORW解题技巧/
+            <strong>链接:</strong> https://wi1lings.github.io/2024/12/03/第二章 编译与链接/
         </li>
         <li>
             <strong>
@@ -353,7 +419,7 @@
             <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
                 
                     <li class="tag-item mx-0.5">
-                        <a href="/tags/pwn/">#pwn</a>&nbsp;
+                        <a href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">#程序员的自我修养</a>&nbsp;
                     </li>
                 
             </ul>
@@ -364,14 +430,29 @@
         
             <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
                 
+                    <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2024/12/03/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">第三章 目标文件</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
                         <a class="next"
                         rel="next"
-                        href="/2024/04/22/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/"
+                        href="/2024/12/03/%E7%AC%AC%E5%85%AB%E7%AB%A0%20Linux%E5%85%B1%E4%BA%AB%E5%BA%93%E7%9A%84%E7%BB%84%E7%BB%87/"
                         >
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">TCP三次握手和四次挥手</span>
+                                <span class="post-nav-title-item">第八章 Linux共享库的组织</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex justify-center items-center">
@@ -435,8 +516,8 @@
             <div class="post-toc-wrap">
     <div class="post-toc">
         <div class="toc-title">目录</div>
-        <div class="page-title">PWN溢出技巧：ORW解题技巧</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ORW"><span class="nav-text">ORW</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-text">解决方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E6%9F%A5%E7%9C%8B%E6%B2%99%E7%AE%B1"><span class="nav-text">1、查看沙箱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E5%88%A9%E7%94%A8read-open-write%E8%AF%BB%E5%8F%96flag"><span class="nav-text">2、利用read,open,write读取flag</span></a></li></ol></li></ol>
+        <div class="page-title">第二章 编译与链接</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E8%A2%AB%E9%9A%90%E8%97%8F%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="nav-text">2.1 被隐藏的过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%88%E9%A2%84%E7%BC%96%E8%AF%91%EF%BC%89"><span class="nav-text">2.1.1 预处理（预编译）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-%E7%BC%96%E8%AF%91"><span class="nav-text">2.1.2 编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-%E6%B1%87%E7%BC%96"><span class="nav-text">2.1.3 汇编</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-4-%E9%93%BE%E6%8E%A5"><span class="nav-text">2.1.4 链接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E7%BC%96%E8%AF%91%E5%99%A8%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88"><span class="nav-text">2.2 编译器做了什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E6%A8%A1%E5%9D%97%E7%9A%84%E6%8B%BC%E8%A3%85%E3%80%81%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5"><span class="nav-text">2.3 模块的拼装、静态链接</span></a></li></ol>
 
     </div>
 </div>
@@ -469,7 +550,7 @@
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        共撰写了 13 篇文章
+                        共撰写了 6 篇文章
                     </span>
                     
                 </p>

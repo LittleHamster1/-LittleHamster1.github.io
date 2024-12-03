@@ -13,26 +13,25 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://example.com/2024/03/24/栈溢出基础/"/>
+    <link rel="canonical" href="http://example.com/2024/12/03/第七章 动态链接/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="栈溢出基础C语言函数调用栈 函数调用栈是指程序运行时内存一段连续的区域  用来保存函数运行时的状态信息，包括函数参数与局部变量等  称之为栈是因为发生函数调用时，调用函数（caller），被调用函数（callee）的状态被压入调用栈的栈顶  在函数调用结束时，栈顶的函数（callee）状态被弹出，栈顶恢复到调用函数（caller）的状态  函数调用栈在内存中从高地址向低地址生长，所以栈顶对应的内存">
+        <meta name="description" content="7.1 为什么要动态链接7.1.1 内存和磁盘空间静态链接这种方法的确很简单，原理上很容易理解，实践上很难实现，在操作系统和硬件不发达的早期，绝大部分系统采用这种方案。随着计算机软件的发展，这种方法的缺点很快暴露出来了，那就是静态链接的方式对于计算机内存和磁盘空间的浪费非常严重。特别是多进程操作系统情况下，静态链接极大地浪费了内存空间。 7.1.2 程序开发与发布空间浪费是静态链接的一个问题，另一">
 <meta property="og:type" content="article">
-<meta property="og:title" content="栈溢出基础">
-<meta property="og:url" content="http://example.com/2024/03/24/%E6%A0%88%E6%BA%A2%E5%87%BA%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:title" content="第七章 动态链接">
+<meta property="og:url" content="http://example.com/2024/12/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/index.html">
 <meta property="og:site_name" content="Wi1lings">
-<meta property="og:description" content="栈溢出基础C语言函数调用栈 函数调用栈是指程序运行时内存一段连续的区域  用来保存函数运行时的状态信息，包括函数参数与局部变量等  称之为栈是因为发生函数调用时，调用函数（caller），被调用函数（callee）的状态被压入调用栈的栈顶  在函数调用结束时，栈顶的函数（callee）状态被弹出，栈顶恢复到调用函数（caller）的状态  函数调用栈在内存中从高地址向低地址生长，所以栈顶对应的内存">
+<meta property="og:description" content="7.1 为什么要动态链接7.1.1 内存和磁盘空间静态链接这种方法的确很简单，原理上很容易理解，实践上很难实现，在操作系统和硬件不发达的早期，绝大部分系统采用这种方案。随着计算机软件的发展，这种方法的缺点很快暴露出来了，那就是静态链接的方式对于计算机内存和磁盘空间的浪费非常严重。特别是多进程操作系统情况下，静态链接极大地浪费了内存空间。 7.1.2 程序开发与发布空间浪费是静态链接的一个问题，另一">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img2.imgtp.com/2024/03/24/xb4MM33H.png">
-<meta property="og:image" content="https://img2.imgtp.com/2024/03/24/U1mxZbWj.png">
-<meta property="article:published_time" content="2024-03-24T13:19:01.000Z">
-<meta property="article:modified_time" content="2024-03-24T13:19:15.111Z">
+<meta property="og:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412022214307.jpg">
+<meta property="article:published_time" content="2024-12-03T07:41:45.000Z">
+<meta property="article:modified_time" content="2024-12-03T07:43:12.324Z">
 <meta property="article:author" content="Wi1lings">
-<meta property="article:tag" content="pwn">
+<meta property="article:tag" content="程序员的自我修养">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img2.imgtp.com/2024/03/24/xb4MM33H.png">
+<meta name="twitter:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412022214307.jpg">
     
     
     <!--- Icon Part-->
@@ -44,7 +43,7 @@
     
     <title>
         
-            栈溢出基础 | Wi1lings
+            第七章 动态链接 | Wi1lings
         
     </title>
 
@@ -205,7 +204,7 @@
 
         <div class="statistics flex justify-around my-2.5">
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">3</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">1</div>
         <div class="label text-third-text-color text-sm">标签</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
@@ -213,7 +212,7 @@
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">13</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">6</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -239,7 +238,7 @@
         <div class="article-title relative w-full">
             
                 <div class="w-full flex items-center pt-6 justify-start">
-                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">栈溢出基础</h1>
+                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">第七章 动态链接</h1>
                 </div>
             
             </div>
@@ -253,22 +252,22 @@
                     <div class="author flex items-center">
                         <span class="name text-default-text-color text-lg font-semibold">Wi1lings</span>
                         
-                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv2</span>
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv1</span>
                         
                     </div>
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="desktop">2024-03-24 21:19:01</span>
-        <span class="mobile">2024-03-24 21:19:01</span>
+        <span class="desktop">2024-12-03 15:41:45</span>
+        <span class="mobile">2024-12-03 15:41:45</span>
         <span class="hover-info">创建</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-03-24 21:19:15</span>
-            <span class="mobile">2024-03-24 21:19:15</span>
+            <span class="desktop">2024-12-03 15:43:12</span>
+            <span class="mobile">2024-12-03 15:43:12</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -280,7 +279,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/pwn/">pwn</a>&nbsp;
+                        <a href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">程序员的自我修养</a>&nbsp;
                     </li>
                 
             </ul>
@@ -306,78 +305,36 @@
 
 
         <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
-            <h1 id="栈溢出基础"><a href="#栈溢出基础" class="headerlink" title="栈溢出基础"></a>栈溢出基础</h1><h2 id="C语言函数调用栈"><a href="#C语言函数调用栈" class="headerlink" title="C语言函数调用栈"></a>C语言函数调用栈</h2><ul>
-<li><p>函数调用栈是指程序运行时内存一段连续的区域</p>
-</li>
-<li><p>用来保存函数运行时的状态信息，包括函数参数与局部变量等</p>
-</li>
-<li><p>称之为<b>栈</b>是因为发生函数调用时，调用函数（caller），被调用函数（callee）的状态被压入调用栈的栈顶</p>
-</li>
-<li><p>在函数调用结束时，栈顶的函数（callee）状态被弹出，栈顶恢复到调用函数（caller）的状态</p>
-</li>
-<li><p>函数调用栈在内存中从高地址向低地址生长，所以栈顶对应的内存地址在压栈时变小，退栈时变大</p>
-</li>
-<li><p><img  
+            <h2 id="7-1-为什么要动态链接"><a href="#7-1-为什么要动态链接" class="headerlink" title="7.1 为什么要动态链接"></a>7.1 为什么要动态链接</h2><h3 id="7-1-1-内存和磁盘空间"><a href="#7-1-1-内存和磁盘空间" class="headerlink" title="7.1.1 内存和磁盘空间"></a>7.1.1 内存和磁盘空间</h3><p>静态链接这种方法的确很简单，原理上很容易理解，实践上很难实现，在操作系统和硬件不发达的早期，绝大部分系统采用这种方案。随着计算机软件的发展，这种方法的缺点很快暴露出来了，那就是静态链接的方式对于计算机内存和磁盘空间的浪费非常严重。特别是多进程操作系统情况下，静态链接极大地浪费了内存空间。</p>
+<h3 id="7-1-2-程序开发与发布"><a href="#7-1-2-程序开发与发布" class="headerlink" title="7.1.2 程序开发与发布"></a>7.1.2 程序开发与发布</h3><p>空间浪费是静态链接的一个问题，另一个问题是静态链接对于程序的更新、部署和发布会带来很多麻烦。一旦程序中有任何一个模块更新，整个程序就需要重新连接、发布给用户。如果程序都使用静态链接，那么通过网络更新程序将会非常不便，因为一旦程序任何位置的一个小改动，都会导致整个程序重新下载。</p>
+<h3 id="7-1-3-动态链接"><a href="#7-1-3-动态链接" class="headerlink" title="7.1.3 动态链接"></a>7.1.3 动态链接</h3><p>要解决空间浪费和更新困难这两个最简单的方法就是把程序的模块相互分割开来，形成独立的文件，而不在将它们静态地链接在一起。简单来讲，就是不对那些程序的目标文件进行链接，等到程序要运行时才进行链接。也就是说，把链接这个过程推迟到了运行时再进行，这就是<strong>动态链接</strong>。</p>
+<h2 id="7-2-简单的动态链接例子"><a href="#7-2-简单的动态链接例子" class="headerlink" title="7.2 简单的动态链接例子"></a>7.2 简单的动态链接例子</h2><p>使用GCC将Lib.c文件编译成一个共享对象文件：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$gcc -fPIC -shared -o Lib.so Lib.c</span><br></pre></td></tr></table></figure></div>
+
+<blockquote>
+<p>上面GCC命令中的参数”-shared“表示产生共享对象，”-fPIC“表示地址无关代码</p>
+</blockquote>
+<img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://img2.imgtp.com/2024/03/24/xb4MM33H.png"
-                      alt="栈帧结构概览.png"
-                ></p>
-</li>
-<li><p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://img2.imgtp.com/2024/03/24/U1mxZbWj.png"
-                      alt="函数调用栈.png"
-                ></p>
-</li>
-</ul>
-<h2 id="canary-pie绕过"><a href="#canary-pie绕过" class="headerlink" title="canary_pie绕过"></a>canary_pie绕过</h2><h4 id="canary机制介绍"><a href="#canary机制介绍" class="headerlink" title="canary机制介绍"></a>canary机制介绍</h4><p>canary是一种用来<b>防护栈溢出</b>的保护机制。其原理是在一个函数的入口处，先从fs&#x2F;gs寄存器中取出一个4字节（eax）或8字节（rax）的值存到栈上，当函数结束时会检查这个栈上的值是否和存进去的值一致。</p>
-<h4 id="canary-bypass"><a href="#canary-bypass" class="headerlink" title="canary bypass"></a>canary bypass</h4><ul>
-<li><p>格式化字符串绕过canary</p>
+                     data-src="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412022214307.jpg"
+                      style="zoom:67%;" 
+                >
+
+<h2 id="7-3-地址无关代码"><a href="#7-3-地址无关代码" class="headerlink" title="7.3 地址无关代码"></a>7.3 地址无关代码</h2><h3 id="7-3-1-固定装载地址的困扰"><a href="#7-3-1-固定装载地址的困扰" class="headerlink" title="7.3.1 固定装载地址的困扰"></a>7.3.1 固定装载地址的困扰</h3><p>为了实现动态链接，我们首先会遇到的问题就是共享对象地址的冲突问题。为了解决模块装载地址固定的问题，我们可以让<strong>共享对象编译时不能假设自己在进程中虚拟地址空间中的位置。</strong>与此不同的是，可执行文件基本可以确定自己在虚拟空间中的起始位置，因为可执行文件往往是第一个被加载的文件，它可以选择一个固定空闲的地址（Linux下一般为0x08040000，windows下一般为0x0040000）</p>
+<h3 id="7-3-2-装载时重定位"><a href="#7-3-2-装载时重定位" class="headerlink" title="7.3.2 装载时重定位"></a>7.3.2 装载时重定位</h3><p>在链接时，对所有绝对地址的引用不作重定位，而把这一步推迟到装载时再完成，一旦模块装载地址确定，即目标地址确定。但是装载时重定位并不适合用来解决上面的共享对象中所存在的问题。可以想象，动态链接模块被装载映射到虚拟空间后，指令是在多个进程之间共享的，由于装载时重定位的方法需要修改指令，所以没法做到同一份指令被多个进程共享，因为指令被重定位后对每个进程来讲是不同的。</p>
+<p>GCC在产生共享对象时，如果只使用”-shared“参数，那么输出的共享对象就是使用装载时重定位的方法</p>
+<h3 id="7-3-3-地址无关代码"><a href="#7-3-3-地址无关代码" class="headerlink" title="7.3.3 地址无关代码"></a>7.3.3 地址无关代码</h3><p>装载时重定位是解决动态模块中有绝对地址引用的办法之一，但是它有一个很大的缺点是指令部分无法在多个进程之间共享。解决这个问题的基本想法就是把指令中那些需要被修改的部分分离出来，跟数据部分放在一起，这样指令部分就可以保持不变，而数据部分可以在每个进程中拥有一个副本。这种方案就是目前被称为<strong>地址无关代码</strong>的技术。</p>
+<h2 id="7-4-延迟绑定（PLT）"><a href="#7-4-延迟绑定（PLT）" class="headerlink" title="7.4 延迟绑定（PLT）"></a>7.4 延迟绑定（PLT）</h2><h3 id="延迟绑定的实现"><a href="#延迟绑定的实现" class="headerlink" title="延迟绑定的实现"></a>延迟绑定的实现</h3><p>在动态链接下，程序模块之间包含了大量的函数引用，所以在程序执行之前，动态链接会。耗费不少时间用于解决模块之间的函数引用的符号查找以及重定位。但是如果一开始就把所有函数都链接好实际上是一种浪费，所以ELF采用了一种叫<strong>延迟绑定</strong>的做法。其基本思想就是当<strong>函数第一次被用到时才进行绑定</strong>，如果没用到则不进行绑定。</p>
+<p>ELF使用<strong>PLT</strong>的方法来实现，这种方法使用了一些精巧的指令序列来完成。当我们调用某个外部模块时，如果按照通常的做法是通过GOT中相应的项进行间接跳转。PLT为了实现延迟绑定，在这个过程中间又增加了一层间接跳转。调用函数并不直接通过GOT跳转，而是通过一个叫PLT项的结构来进行跳转。每个外部函数在PLT中都有一个相应的项。</p>
+<p>在ELF文件中，GOT表通常被拆分成两个表叫做“.got”和“.got.plt”。其中“.got”用来保存全局变量引用的地址，“.got.plt”用来保存函数引用的地址，也就是说，所有对于外部函数的引用全部都被分离出来放到了“.got.plt”中。另外，“.got.plt”还有一个特殊的地方是它的前三项是有意义的，分别含义如下：</p>
 <ul>
-<li>通过格式化字符串读取canary的值</li>
+<li>第一项保存的是“.dynamic”段的地址，这个段描述了本模块动态链接相关的信息；</li>
+<li>第二项保存的是本模块的ID；</li>
+<li>第三项保存的是_dl_runtime_resolve()的地址。</li>
 </ul>
-</li>
-<li><p>Canary爆破（针对有fork函数的程序）</p>
-<ul>
-<li>fork作用相当于自我复制，每一次复制出来的程序，内存布局都是一样的，当然canary的值也一样，那我们就可以逐位爆破，如果程序崩溃了就说明这一位不对，如果程序正常就可以接着跑下一位，直到跑出正确的canary</li>
-</ul>
-</li>
-<li><p>Stack smashing（故意触发canary_ssp leak）</p>
-</li>
-<li><p>劫持__stack_chk_fail</p>
-<ul>
-<li>修改got表中__stack_chk_fail函数的地址，在栈溢出后执行该函数，但由于该函数的地址被修改，所以程序会跳转到我们想要执行的地址</li>
-</ul>
-</li>
-</ul>
-<h2 id="PIE绕过"><a href="#PIE绕过" class="headerlink" title="PIE绕过"></a>PIE绕过</h2><h4 id="PIE机制介绍"><a href="#PIE机制介绍" class="headerlink" title="PIE机制介绍"></a>PIE机制介绍</h4><p>PIE技术是一个针对代码段（.text）、数据段（.data）、未初始化全局变量段（.bss）等固定地址的一个防护技术，如果程序开启了PIE保护的话，在每次加载程序时都变换加载地址，从而不能通过ROPgadget等一些工具来帮助解题。</p>
-<h4 id="PIE-bypass"><a href="#PIE-bypass" class="headerlink" title="PIE bypass"></a>PIE bypass</h4><p>程序的加载地址一般都是以内存页位单位的，所以程序的基地址最后三个数字一定是0，这也就是说那些地址已知的最后三个数就是实际地址的最后三个数。知道这一点后我们就有了绕过PIE的思路，虽然我并不知道完整的地址，但我知道最后三个数，那么我们可以利用栈上已有的地址，只修改它们最后两个字节（最后四个数）即可。</p>
-<p>所以绕过PIE的核心思想就是<b>partial writing（部分写地址）</b></p>
-<h2 id="ret2XX"><a href="#ret2XX" class="headerlink" title="ret2XX"></a>ret2XX</h2><ul>
-<li><p>ROP</p>
-</li>
-<li><p>ret2text</p>
-</li>
-<li><p>ret2shellcode</p>
-</li>
-<li><p>ret2syscall</p>
-</li>
-<li><p>ret2libc</p>
-</li>
-<li><p>ret2csu</p>
-</li>
-</ul>
-<h4 id="ROP概述（面向返回编程）"><a href="#ROP概述（面向返回编程）" class="headerlink" title="ROP概述（面向返回编程）"></a>ROP概述（面向返回编程）</h4><p>随着NX保护的开启，以往直接往栈上或者堆上直接注入代码的方式难以继续发挥效果。攻击者们也提出来响应的方法来绕过保护，目前最主要的是ROP(Return Oriented Programming)，其主要思想是在栈缓冲区溢出的基础上，利用程序中已有的小片段（gadgets）来改变某些寄存器或者变量的值，从而控制程序的执行流程。所谓gadgets就是以ret结尾的指令序列，通过这些序列，我们可以修改某些地址的内容，方便控制程序的执行流程。之所以称之为ROP，是因为其核心在于利用了指令集中的ret指令，改变了指令流的执行顺序。ROP攻击一般得满足以下条件：</p>
-<ol>
-<li><p>程序中存在溢出，并且可以控制返回地址</p>
-</li>
-<li><p>可以找到满足条件的gadgets以及相应gadgets的地址</p>
-</li>
-</ol>
-<p>如果gadgets每次地址是不固定的，那我们就需要想办法动态获取相应的地址了。</p>
-<h2 id="ret2text"><a href="#ret2text" class="headerlink" title="ret2text"></a>ret2text</h2><p>ret2text即控制程序执行程序本身已有的代码（.text）。其实，这种攻击方法是一种笼统的概述。我们控制执行程序已有的代码的时候也可以控制程序执行好几段不相邻的程序已有的代码（也就是gadgets），这也就是我们所说的ROP。</p>
+<p>其中第二项和第三项由动态链接器在装载共享模块的时候负责将它们初始化。“.got.plt”的其余项分别对应每个外部函数的引用</p>
+<p>PLT在ELF文件中以独立的段存放，段名通常叫做“.plt”，因为它本身是一些地址无关的代码，所以可以跟代码段一起合并成同一个可读可执行的“Segment”被装载进内存。</p>
 
         </div>
 
@@ -385,18 +342,18 @@
             <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
                 <div class="article-copyright-info-container">
     <ul>
-        <li><strong>标题:</strong> 栈溢出基础</li>
+        <li><strong>标题:</strong> 第七章 动态链接</li>
         <li><strong>作者:</strong> Wi1lings</li>
         <li><strong>创建于
-                :</strong> 2024-03-24 21:19:01</li>
+                :</strong> 2024-12-03 15:41:45</li>
         
             <li>
                 <strong>更新于
-                    :</strong> 2024-03-24 21:19:15
+                    :</strong> 2024-12-03 15:43:12
             </li>
         
         <li>
-            <strong>链接:</strong> https://wi1lings.github.io/2024/03/24/栈溢出基础/
+            <strong>链接:</strong> https://wi1lings.github.io/2024/12/03/第七章 动态链接/
         </li>
         <li>
             <strong>
@@ -418,7 +375,7 @@
             <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
                 
                     <li class="tag-item mx-0.5">
-                        <a href="/tags/pwn/">#pwn</a>&nbsp;
+                        <a href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">#程序员的自我修养</a>&nbsp;
                     </li>
                 
             </ul>
@@ -429,29 +386,14 @@
         
             <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
                 
-                    <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
-                        <a class="prev"
-                        rel="prev"
-                        href="/2024/03/31/BUUCTF-PWN-EXP--1-32/"
-                        >
-                            <span class="left arrow-icon flex justify-center items-center">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">BUUCTF-PWN-EXP(1-32)</span>
-                                <span class="post-nav-item">上一篇</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
                         <a class="next"
                         rel="next"
-                        href="/2024/03/24/pwn%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"
+                        href="/2024/12/03/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6/"
                         >
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">pwn基础知识</span>
+                                <span class="post-nav-title-item">第三章 目标文件</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex justify-center items-center">
@@ -515,8 +457,8 @@
             <div class="post-toc-wrap">
     <div class="post-toc">
         <div class="toc-title">目录</div>
-        <div class="page-title">栈溢出基础</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%88%E6%BA%A2%E5%87%BA%E5%9F%BA%E7%A1%80"><span class="nav-text">栈溢出基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#C%E8%AF%AD%E8%A8%80%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E6%A0%88"><span class="nav-text">C语言函数调用栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#canary-pie%E7%BB%95%E8%BF%87"><span class="nav-text">canary_pie绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PIE%E7%BB%95%E8%BF%87"><span class="nav-text">PIE绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ret2XX"><span class="nav-text">ret2XX</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ret2text"><span class="nav-text">ret2text</span></a></li></ol></li></ol>
+        <div class="page-title">第七章 动态链接</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5"><span class="nav-text">7.1 为什么要动态链接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-1-%E5%86%85%E5%AD%98%E5%92%8C%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4"><span class="nav-text">7.1.1 内存和磁盘空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-2-%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E4%B8%8E%E5%8F%91%E5%B8%83"><span class="nav-text">7.1.2 程序开发与发布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-3-%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5"><span class="nav-text">7.1.3 动态链接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-%E7%AE%80%E5%8D%95%E7%9A%84%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E4%BE%8B%E5%AD%90"><span class="nav-text">7.2 简单的动态链接例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-%E5%9C%B0%E5%9D%80%E6%97%A0%E5%85%B3%E4%BB%A3%E7%A0%81"><span class="nav-text">7.3 地址无关代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-1-%E5%9B%BA%E5%AE%9A%E8%A3%85%E8%BD%BD%E5%9C%B0%E5%9D%80%E7%9A%84%E5%9B%B0%E6%89%B0"><span class="nav-text">7.3.1 固定装载地址的困扰</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-2-%E8%A3%85%E8%BD%BD%E6%97%B6%E9%87%8D%E5%AE%9A%E4%BD%8D"><span class="nav-text">7.3.2 装载时重定位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-3-%E5%9C%B0%E5%9D%80%E6%97%A0%E5%85%B3%E4%BB%A3%E7%A0%81"><span class="nav-text">7.3.3 地址无关代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-4-%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A%EF%BC%88PLT%EF%BC%89"><span class="nav-text">7.4 延迟绑定（PLT）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">延迟绑定的实现</span></a></li></ol></li></ol>
 
     </div>
 </div>
@@ -549,7 +491,7 @@
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        共撰写了 13 篇文章
+                        共撰写了 6 篇文章
                     </span>
                     
                 </p>
