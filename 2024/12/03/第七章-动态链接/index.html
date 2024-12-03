@@ -13,26 +13,25 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://example.com/2024/12/03/第六章 可执行文件的装载与进程/"/>
+    <link rel="canonical" href="http://example.com/2024/12/03/第七章-动态链接/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="6.1 进程虚拟地址空间6.1.1 32位linux寻址空间大致分布  6.1.2 64位linux寻址空间大致分布  6.2 装载的方式程序在执行时所需要的指令和数据必须在内存中才能正常运行，最简单的方法就是将程序运行所需要的指令和数据全部装入内存，这样程序就可以顺利运行，这就是最简单的装入方法。但是很多情况下程序所需要的内存数量大于实际的物理内存数量，当内存的数量不够时，根本的解决方法就是添加">
+        <meta name="description" content="7.1 为什么要动态链接7.1.1 内存和磁盘空间静态链接这种方法的确很简单，原理上很容易理解，实践上很难实现，在操作系统和硬件不发达的早期，绝大部分系统采用这种方案。随着计算机软件的发展，这种方法的缺点很快暴露出来了，那就是静态链接的方式对于计算机内存和磁盘空间的浪费非常严重。特别是多进程操作系统情况下，静态链接极大地浪费了内存空间。 7.1.2 程序开发与发布空间浪费是静态链接的一个问题，另一">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第六章 可执行文件的装载与进程">
-<meta property="og:url" content="http://example.com/2024/12/03/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E8%A3%85%E8%BD%BD%E4%B8%8E%E8%BF%9B%E7%A8%8B/index.html">
+<meta property="og:title" content="第七章-动态链接">
+<meta property="og:url" content="http://example.com/2024/12/03/%E7%AC%AC%E4%B8%83%E7%AB%A0-%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/index.html">
 <meta property="og:site_name" content="Wi1lings">
-<meta property="og:description" content="6.1 进程虚拟地址空间6.1.1 32位linux寻址空间大致分布  6.1.2 64位linux寻址空间大致分布  6.2 装载的方式程序在执行时所需要的指令和数据必须在内存中才能正常运行，最简单的方法就是将程序运行所需要的指令和数据全部装入内存，这样程序就可以顺利运行，这就是最简单的装入方法。但是很多情况下程序所需要的内存数量大于实际的物理内存数量，当内存的数量不够时，根本的解决方法就是添加">
+<meta property="og:description" content="7.1 为什么要动态链接7.1.1 内存和磁盘空间静态链接这种方法的确很简单，原理上很容易理解，实践上很难实现，在操作系统和硬件不发达的早期，绝大部分系统采用这种方案。随着计算机软件的发展，这种方法的缺点很快暴露出来了，那就是静态链接的方式对于计算机内存和磁盘空间的浪费非常严重。特别是多进程操作系统情况下，静态链接极大地浪费了内存空间。 7.1.2 程序开发与发布空间浪费是静态链接的一个问题，另一">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412021857614.png">
-<meta property="og:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412021858300.png">
-<meta property="article:published_time" content="2024-12-03T07:41:45.000Z">
-<meta property="article:modified_time" content="2024-12-03T07:53:47.952Z">
+<meta property="og:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412022214307.jpg">
+<meta property="article:published_time" content="2024-12-03T08:00:12.000Z">
+<meta property="article:modified_time" content="2024-12-03T08:01:29.772Z">
 <meta property="article:author" content="Wi1lings">
 <meta property="article:tag" content="程序员的自我修养">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412021857614.png">
+<meta name="twitter:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412022214307.jpg">
     
     
     <!--- Icon Part-->
@@ -44,7 +43,7 @@
     
     <title>
         
-            第六章 可执行文件的装载与进程 | Wi1lings
+            第七章-动态链接 | Wi1lings
         
     </title>
 
@@ -239,7 +238,7 @@
         <div class="article-title relative w-full">
             
                 <div class="w-full flex items-center pt-6 justify-start">
-                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">第六章 可执行文件的装载与进程</h1>
+                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">第七章-动态链接</h1>
                 </div>
             
             </div>
@@ -260,15 +259,15 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="desktop">2024-12-03 15:41:45</span>
-        <span class="mobile">2024-12-03 15:41:45</span>
+        <span class="desktop">2024-12-03 16:12</span>
+        <span class="mobile">2024-12-03 16:12</span>
         <span class="hover-info">创建</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-12-03 15:53:47</span>
-            <span class="mobile">2024-12-03 15:53:47</span>
+            <span class="desktop">2024-12-03 16:01:29</span>
+            <span class="mobile">2024-12-03 16:01:29</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -306,38 +305,36 @@
 
 
         <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
-            <h2 id="6-1-进程虚拟地址空间"><a href="#6-1-进程虚拟地址空间" class="headerlink" title="6.1 进程虚拟地址空间"></a>6.1 进程虚拟地址空间</h2><h3 id="6-1-1-32位linux寻址空间大致分布"><a href="#6-1-1-32位linux寻址空间大致分布" class="headerlink" title="6.1.1 32位linux寻址空间大致分布"></a>6.1.1 32位linux寻址空间大致分布</h3><img  
+            <h2 id="7-1-为什么要动态链接"><a href="#7-1-为什么要动态链接" class="headerlink" title="7.1 为什么要动态链接"></a>7.1 为什么要动态链接</h2><h3 id="7-1-1-内存和磁盘空间"><a href="#7-1-1-内存和磁盘空间" class="headerlink" title="7.1.1 内存和磁盘空间"></a>7.1.1 内存和磁盘空间</h3><p>静态链接这种方法的确很简单，原理上很容易理解，实践上很难实现，在操作系统和硬件不发达的早期，绝大部分系统采用这种方案。随着计算机软件的发展，这种方法的缺点很快暴露出来了，那就是静态链接的方式对于计算机内存和磁盘空间的浪费非常严重。特别是多进程操作系统情况下，静态链接极大地浪费了内存空间。</p>
+<h3 id="7-1-2-程序开发与发布"><a href="#7-1-2-程序开发与发布" class="headerlink" title="7.1.2 程序开发与发布"></a>7.1.2 程序开发与发布</h3><p>空间浪费是静态链接的一个问题，另一个问题是静态链接对于程序的更新、部署和发布会带来很多麻烦。一旦程序中有任何一个模块更新，整个程序就需要重新连接、发布给用户。如果程序都使用静态链接，那么通过网络更新程序将会非常不便，因为一旦程序任何位置的一个小改动，都会导致整个程序重新下载。</p>
+<h3 id="7-1-3-动态链接"><a href="#7-1-3-动态链接" class="headerlink" title="7.1.3 动态链接"></a>7.1.3 动态链接</h3><p>要解决空间浪费和更新困难这两个最简单的方法就是把程序的模块相互分割开来，形成独立的文件，而不在将它们静态地链接在一起。简单来讲，就是不对那些程序的目标文件进行链接，等到程序要运行时才进行链接。也就是说，把链接这个过程推迟到了运行时再进行，这就是<strong>动态链接</strong>。</p>
+<h2 id="7-2-简单的动态链接例子"><a href="#7-2-简单的动态链接例子" class="headerlink" title="7.2 简单的动态链接例子"></a>7.2 简单的动态链接例子</h2><p>使用GCC将Lib.c文件编译成一个共享对象文件：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$gcc -fPIC -shared -o Lib.so Lib.c</span><br></pre></td></tr></table></figure></div>
+
+<blockquote>
+<p>上面GCC命令中的参数”-shared“表示产生共享对象，”-fPIC“表示地址无关代码</p>
+</blockquote>
+<img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412021857614.png"
-                      style="zoom: 80%;" 
+                     data-src="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412022214307.jpg"
+                      style="zoom:67%;" 
                 >
 
-<h3 id="6-1-2-64位linux寻址空间大致分布"><a href="#6-1-2-64位linux寻址空间大致分布" class="headerlink" title="6.1.2 64位linux寻址空间大致分布"></a>6.1.2 64位linux寻址空间大致分布</h3><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412021858300.png"
-                      style="zoom:80%;" 
-                >
-
-<h2 id="6-2-装载的方式"><a href="#6-2-装载的方式" class="headerlink" title="6.2 装载的方式"></a>6.2 装载的方式</h2><p>程序在执行时所需要的指令和数据必须在内存中才能正常运行，最简单的方法就是将程序运行所需要的指令和数据全部装入内存，这样程序就可以顺利运行，这就是最简单的装入方法。但是很多情况下程序所需要的内存数量大于实际的物理内存数量，当内存的数量不够时，根本的解决方法就是添加内存，但是相对于磁盘来说，内存是昂贵且稀有的。后来研究发现，程序运行时是有局部性原理的，所以我们可以将程序最常用的部分驻留在内存中，而将不常用的部分留在磁盘里，这就是<strong>动态载入</strong>的基本原理。</p>
-<p><strong>覆盖载入</strong>和<strong>页映射</strong>是两种很典型的动态载入方法，它们原则上都是利用了程序的局部性原理。动态载入的思想就是程序用到哪个模块就将哪个模块装入内存，如果不用就暂时不装入，存放在磁盘中。</p>
-<h3 id="6-2-1-覆盖装入"><a href="#6-2-1-覆盖装入" class="headerlink" title="6.2.1 覆盖装入"></a>6.2.1 覆盖装入</h3><p>覆盖装入的方法把挖掘内存潜力的任务交给了程序员，程序员在编写程序的时候必须手工将程序分割成若干块，然后编写一个小的辅助代码来管理这些模块何时应该驻留在内存而何时应该被替换掉。这个小的辅助代码就是所谓的<strong>覆盖管理器</strong>。</p>
-<h3 id="6-2-2-页映射"><a href="#6-2-2-页映射" class="headerlink" title="6.2.2 页映射"></a>6.2.2 页映射</h3><p>页映射是虚拟存储机制的一部分，它随着虚拟存储的发明而诞生。页映射将内存和所有磁盘中的数据和指令按照”页“为单位划分成若干个页，以后所有的装载和操作的单位就是页。</p>
-<h2 id="6-3-从操作系统角度来看可执行文件的装载"><a href="#6-3-从操作系统角度来看可执行文件的装载" class="headerlink" title="6.3 从操作系统角度来看可执行文件的装载"></a>6.3 从操作系统角度来看可执行文件的装载</h2><h3 id="6-3-1-进程的建立"><a href="#6-3-1-进程的建立" class="headerlink" title="6.3.1 进程的建立"></a>6.3.1 进程的建立</h3><ul>
-<li>创建一个独立的虚拟地址空间。</li>
-<li>读取可执行文件头，并且建立虚拟空间与可执行文件的映射关系。</li>
-<li>将CPU的指令寄存器设置成可执行文件的入口地址，启动运行。</li>
-</ul>
-<h2 id="6-4-进程虚存空间分布"><a href="#6-4-进程虚存空间分布" class="headerlink" title="6.4 进程虚存空间分布"></a>6.4 进程虚存空间分布</h2><h3 id="6-4-1-ELF文件链接视图和执行视图"><a href="#6-4-1-ELF文件链接视图和执行视图" class="headerlink" title="6.4.1 ELF文件链接视图和执行视图"></a>6.4.1 ELF文件链接视图和执行视图</h3><p>当段的数量增多时，就会产生空间浪费的问题。因为我们知道，ELF文件在被映射时，以系统的页长度作为单位的，那么每个段在映射时的长度应该都是系统页长度的整数倍；如果不是，那么多余部分也将占用一个页。一个ELF文件中往往有十几个段，那么内存空间的浪费是可想而知的。</p>
-<p>当我们站在操作系统装载可执行文件的角度看问题时，可以发现它实际上并不关心可执行文件各个段所包含的实际内容，操作系统只关心一些跟装载相关的问题，最主要的就是段的权限（可读、可写、可执行）。ELF文件中，段的权限往往只有为数不多的几种组合，基本上是三种：</p>
+<h2 id="7-3-地址无关代码"><a href="#7-3-地址无关代码" class="headerlink" title="7.3 地址无关代码"></a>7.3 地址无关代码</h2><h3 id="7-3-1-固定装载地址的困扰"><a href="#7-3-1-固定装载地址的困扰" class="headerlink" title="7.3.1 固定装载地址的困扰"></a>7.3.1 固定装载地址的困扰</h3><p>为了实现动态链接，我们首先会遇到的问题就是共享对象地址的冲突问题。为了解决模块装载地址固定的问题，我们可以让<strong>共享对象编译时不能假设自己在进程中虚拟地址空间中的位置。</strong>与此不同的是，可执行文件基本可以确定自己在虚拟空间中的起始位置，因为可执行文件往往是第一个被加载的文件，它可以选择一个固定空闲的地址（Linux下一般为0x08040000，windows下一般为0x0040000）</p>
+<h3 id="7-3-2-装载时重定位"><a href="#7-3-2-装载时重定位" class="headerlink" title="7.3.2 装载时重定位"></a>7.3.2 装载时重定位</h3><p>在链接时，对所有绝对地址的引用不作重定位，而把这一步推迟到装载时再完成，一旦模块装载地址确定，即目标地址确定。但是装载时重定位并不适合用来解决上面的共享对象中所存在的问题。可以想象，动态链接模块被装载映射到虚拟空间后，指令是在多个进程之间共享的，由于装载时重定位的方法需要修改指令，所以没法做到同一份指令被多个进程共享，因为指令被重定位后对每个进程来讲是不同的。</p>
+<p>GCC在产生共享对象时，如果只使用”-shared“参数，那么输出的共享对象就是使用装载时重定位的方法</p>
+<h3 id="7-3-3-地址无关代码"><a href="#7-3-3-地址无关代码" class="headerlink" title="7.3.3 地址无关代码"></a>7.3.3 地址无关代码</h3><p>装载时重定位是解决动态模块中有绝对地址引用的办法之一，但是它有一个很大的缺点是指令部分无法在多个进程之间共享。解决这个问题的基本想法就是把指令中那些需要被修改的部分分离出来，跟数据部分放在一起，这样指令部分就可以保持不变，而数据部分可以在每个进程中拥有一个副本。这种方案就是目前被称为<strong>地址无关代码</strong>的技术。</p>
+<h2 id="7-4-延迟绑定（PLT）"><a href="#7-4-延迟绑定（PLT）" class="headerlink" title="7.4 延迟绑定（PLT）"></a>7.4 延迟绑定（PLT）</h2><h3 id="延迟绑定的实现"><a href="#延迟绑定的实现" class="headerlink" title="延迟绑定的实现"></a>延迟绑定的实现</h3><p>在动态链接下，程序模块之间包含了大量的函数引用，所以在程序执行之前，动态链接会。耗费不少时间用于解决模块之间的函数引用的符号查找以及重定位。但是如果一开始就把所有函数都链接好实际上是一种浪费，所以ELF采用了一种叫<strong>延迟绑定</strong>的做法。其基本思想就是当<strong>函数第一次被用到时才进行绑定</strong>，如果没用到则不进行绑定。</p>
+<p>ELF使用<strong>PLT</strong>的方法来实现，这种方法使用了一些精巧的指令序列来完成。当我们调用某个外部模块时，如果按照通常的做法是通过GOT中相应的项进行间接跳转。PLT为了实现延迟绑定，在这个过程中间又增加了一层间接跳转。调用函数并不直接通过GOT跳转，而是通过一个叫PLT项的结构来进行跳转。每个外部函数在PLT中都有一个相应的项。</p>
+<p>在ELF文件中，GOT表通常被拆分成两个表叫做“.got”和“.got.plt”。其中“.got”用来保存全局变量引用的地址，“.got.plt”用来保存函数引用的地址，也就是说，所有对于外部函数的引用全部都被分离出来放到了“.got.plt”中。另外，“.got.plt”还有一个特殊的地方是它的前三项是有意义的，分别含义如下：</p>
 <ul>
-<li>以代码段为代表的权限为可读可执行的段</li>
-<li>以数据段和BSS段为代表的权限为可读可写的段</li>
-<li>以只读数据为代表的权限为只读的段</li>
+<li>第一项保存的是“.dynamic”段的地址，这个段描述了本模块动态链接相关的信息；</li>
+<li>第二项保存的是本模块的ID；</li>
+<li>第三项保存的是_dl_runtime_resolve()的地址。</li>
 </ul>
-<p>那么我们可以找到一个很简单的方案就是：<strong>具有相同权限的段，把它们合并到一起当作一个段的映射</strong>。</p>
-<p>ELF可执行文件引入了一个概念叫”Segment“，一个”Segment“包含一个或多个属性类似的”Section“。”Segment“的概念实践上是从装载的角度重新划分了ELF的各个段。在将目标文件链接成可执行文件的时候，链接器会尽量把相同属性的段在同一空间。在ELF中把这些属性相同、又连在一起的段叫做一个”Segment“，而系统正是按照”Segment“而不是”Section“来映射可执行文件的。</p>
+<p>其中第二项和第三项由动态链接器在装载共享模块的时候负责将它们初始化。“.got.plt”的其余项分别对应每个外部函数的引用</p>
+<p>PLT在ELF文件中以独立的段存放，段名通常叫做“.plt”，因为它本身是一些地址无关的代码，所以可以跟代码段一起合并成同一个可读可执行的“Segment”被装载进内存。</p>
 
         </div>
 
@@ -345,18 +342,18 @@
             <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
                 <div class="article-copyright-info-container">
     <ul>
-        <li><strong>标题:</strong> 第六章 可执行文件的装载与进程</li>
+        <li><strong>标题:</strong> 第七章-动态链接</li>
         <li><strong>作者:</strong> Wi1lings</li>
         <li><strong>创建于
-                :</strong> 2024-12-03 15:41:45</li>
+                :</strong> 2024-12-03 16:00:12</li>
         
             <li>
                 <strong>更新于
-                    :</strong> 2024-12-03 15:53:47
+                    :</strong> 2024-12-03 16:01:29
             </li>
         
         <li>
-            <strong>链接:</strong> https://wi1lings.github.io/2024/12/03/第六章 可执行文件的装载与进程/
+            <strong>链接:</strong> https://wi1lings.github.io/2024/12/03/第七章-动态链接/
         </li>
         <li>
             <strong>
@@ -392,13 +389,13 @@
                     <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
                         <a class="prev"
                         rel="prev"
-                        href="/2024/12/03/%E7%AC%AC%E5%85%AB%E7%AB%A0%20Linux%E5%85%B1%E4%BA%AB%E5%BA%93%E7%9A%84%E7%BB%84%E7%BB%87/"
+                        href="/2024/12/03/%E7%AC%AC%E5%85%AB%E7%AB%A0-Linux%E5%85%B1%E4%BA%AB%E5%BA%93%E7%9A%84%E7%BB%84%E7%BB%87/"
                         >
                             <span class="left arrow-icon flex justify-center items-center">
                                 <i class="fa-solid fa-chevron-left"></i>
                             </span>
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">第八章 Linux共享库的组织</span>
+                                <span class="post-nav-title-item">第八章-Linux共享库的组织</span>
                                 <span class="post-nav-item">上一篇</span>
                             </span>
                         </a>
@@ -408,10 +405,10 @@
                     <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
                         <a class="next"
                         rel="next"
-                        href="/2024/12/03/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5/"
+                        href="/2024/12/03/%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E8%A3%85%E8%BD%BD%E4%B8%8E%E8%BF%9B%E7%A8%8B/"
                         >
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">第四章 静态链接</span>
+                                <span class="post-nav-title-item">第六章 可执行文件装载与进程</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex justify-center items-center">
@@ -475,8 +472,8 @@
             <div class="post-toc-wrap">
     <div class="post-toc">
         <div class="toc-title">目录</div>
-        <div class="page-title">第六章 可执行文件的装载与进程</div>
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-%E8%BF%9B%E7%A8%8B%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="nav-text">6.1 进程虚拟地址空间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-1-32%E4%BD%8Dlinux%E5%AF%BB%E5%9D%80%E7%A9%BA%E9%97%B4%E5%A4%A7%E8%87%B4%E5%88%86%E5%B8%83"><span class="nav-text">6.1.1 32位linux寻址空间大致分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-2-64%E4%BD%8Dlinux%E5%AF%BB%E5%9D%80%E7%A9%BA%E9%97%B4%E5%A4%A7%E8%87%B4%E5%88%86%E5%B8%83"><span class="nav-text">6.1.2 64位linux寻址空间大致分布</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-%E8%A3%85%E8%BD%BD%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-text">6.2 装载的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-1-%E8%A6%86%E7%9B%96%E8%A3%85%E5%85%A5"><span class="nav-text">6.2.1 覆盖装入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-2-%E9%A1%B5%E6%98%A0%E5%B0%84"><span class="nav-text">6.2.2 页映射</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-%E4%BB%8E%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%A7%92%E5%BA%A6%E6%9D%A5%E7%9C%8B%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E8%A3%85%E8%BD%BD"><span class="nav-text">6.3 从操作系统角度来看可执行文件的装载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-1-%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%BB%BA%E7%AB%8B"><span class="nav-text">6.3.1 进程的建立</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-%E8%BF%9B%E7%A8%8B%E8%99%9A%E5%AD%98%E7%A9%BA%E9%97%B4%E5%88%86%E5%B8%83"><span class="nav-text">6.4 进程虚存空间分布</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-1-ELF%E6%96%87%E4%BB%B6%E9%93%BE%E6%8E%A5%E8%A7%86%E5%9B%BE%E5%92%8C%E6%89%A7%E8%A1%8C%E8%A7%86%E5%9B%BE"><span class="nav-text">6.4.1 ELF文件链接视图和执行视图</span></a></li></ol></li></ol>
+        <div class="page-title">第七章-动态链接</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5"><span class="nav-text">7.1 为什么要动态链接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-1-%E5%86%85%E5%AD%98%E5%92%8C%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4"><span class="nav-text">7.1.1 内存和磁盘空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-2-%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E4%B8%8E%E5%8F%91%E5%B8%83"><span class="nav-text">7.1.2 程序开发与发布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-3-%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5"><span class="nav-text">7.1.3 动态链接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-%E7%AE%80%E5%8D%95%E7%9A%84%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E4%BE%8B%E5%AD%90"><span class="nav-text">7.2 简单的动态链接例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-%E5%9C%B0%E5%9D%80%E6%97%A0%E5%85%B3%E4%BB%A3%E7%A0%81"><span class="nav-text">7.3 地址无关代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-1-%E5%9B%BA%E5%AE%9A%E8%A3%85%E8%BD%BD%E5%9C%B0%E5%9D%80%E7%9A%84%E5%9B%B0%E6%89%B0"><span class="nav-text">7.3.1 固定装载地址的困扰</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-2-%E8%A3%85%E8%BD%BD%E6%97%B6%E9%87%8D%E5%AE%9A%E4%BD%8D"><span class="nav-text">7.3.2 装载时重定位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-3-%E5%9C%B0%E5%9D%80%E6%97%A0%E5%85%B3%E4%BB%A3%E7%A0%81"><span class="nav-text">7.3.3 地址无关代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-4-%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A%EF%BC%88PLT%EF%BC%89"><span class="nav-text">7.4 延迟绑定（PLT）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">延迟绑定的实现</span></a></li></ol></li></ol>
 
     </div>
 </div>

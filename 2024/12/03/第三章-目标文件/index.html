@@ -13,25 +13,26 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://example.com/2024/12/03/第七章 动态链接/"/>
+    <link rel="canonical" href="http://example.com/2024/12/03/第三章-目标文件/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="7.1 为什么要动态链接7.1.1 内存和磁盘空间静态链接这种方法的确很简单，原理上很容易理解，实践上很难实现，在操作系统和硬件不发达的早期，绝大部分系统采用这种方案。随着计算机软件的发展，这种方法的缺点很快暴露出来了，那就是静态链接的方式对于计算机内存和磁盘空间的浪费非常严重。特别是多进程操作系统情况下，静态链接极大地浪费了内存空间。 7.1.2 程序开发与发布空间浪费是静态链接的一个问题，另一">
+        <meta name="description" content="3.1 目标文件的格式目前PC平台下流行的可执行文件格式主要是Windows下的PE和Linux下的ELF，它们都是COFF格式的变种。目标文件就是源代码编译后但是未进行链接的那些中间文件，它跟可执行文件的内容与结构相似，所以一般跟可执行文件一起采用一种格式存储。 不光是可执行文件按照可执行文件的格式存储，动态链接库及静态链接库文件都按照可执行文件的格式存储。静态链接库稍有不同，它是把很多目标文件">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第七章 动态链接">
-<meta property="og:url" content="http://example.com/2024/12/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/index.html">
+<meta property="og:title" content="第三章 目标文件">
+<meta property="og:url" content="http://example.com/2024/12/03/%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6/index.html">
 <meta property="og:site_name" content="Wi1lings">
-<meta property="og:description" content="7.1 为什么要动态链接7.1.1 内存和磁盘空间静态链接这种方法的确很简单，原理上很容易理解，实践上很难实现，在操作系统和硬件不发达的早期，绝大部分系统采用这种方案。随着计算机软件的发展，这种方法的缺点很快暴露出来了，那就是静态链接的方式对于计算机内存和磁盘空间的浪费非常严重。特别是多进程操作系统情况下，静态链接极大地浪费了内存空间。 7.1.2 程序开发与发布空间浪费是静态链接的一个问题，另一">
+<meta property="og:description" content="3.1 目标文件的格式目前PC平台下流行的可执行文件格式主要是Windows下的PE和Linux下的ELF，它们都是COFF格式的变种。目标文件就是源代码编译后但是未进行链接的那些中间文件，它跟可执行文件的内容与结构相似，所以一般跟可执行文件一起采用一种格式存储。 不光是可执行文件按照可执行文件的格式存储，动态链接库及静态链接库文件都按照可执行文件的格式存储。静态链接库稍有不同，它是把很多目标文件">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412022214307.jpg">
-<meta property="article:published_time" content="2024-12-03T07:41:45.000Z">
-<meta property="article:modified_time" content="2024-12-03T07:53:48.549Z">
+<meta property="og:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412011720907.png">
+<meta property="og:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412011820500.png">
+<meta property="article:published_time" content="2024-12-03T07:57:27.000Z">
+<meta property="article:modified_time" content="2024-12-03T08:01:30.416Z">
 <meta property="article:author" content="Wi1lings">
 <meta property="article:tag" content="程序员的自我修养">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412022214307.jpg">
+<meta name="twitter:image" content="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412011720907.png">
     
     
     <!--- Icon Part-->
@@ -43,7 +44,7 @@
     
     <title>
         
-            第七章 动态链接 | Wi1lings
+            第三章 目标文件 | Wi1lings
         
     </title>
 
@@ -238,7 +239,7 @@
         <div class="article-title relative w-full">
             
                 <div class="w-full flex items-center pt-6 justify-start">
-                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">第七章 动态链接</h1>
+                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">第三章 目标文件</h1>
                 </div>
             
             </div>
@@ -259,15 +260,15 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="desktop">2024-12-03 15:41:45</span>
-        <span class="mobile">2024-12-03 15:41:45</span>
+        <span class="desktop">2024-12-03 15:57:27</span>
+        <span class="mobile">2024-12-03 15:57:27</span>
         <span class="hover-info">创建</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-12-03 15:53:48</span>
-            <span class="mobile">2024-12-03 15:53:48</span>
+            <span class="desktop">2024-12-03 16:01:30</span>
+            <span class="mobile">2024-12-03 16:01:30</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -305,36 +306,124 @@
 
 
         <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
-            <h2 id="7-1-为什么要动态链接"><a href="#7-1-为什么要动态链接" class="headerlink" title="7.1 为什么要动态链接"></a>7.1 为什么要动态链接</h2><h3 id="7-1-1-内存和磁盘空间"><a href="#7-1-1-内存和磁盘空间" class="headerlink" title="7.1.1 内存和磁盘空间"></a>7.1.1 内存和磁盘空间</h3><p>静态链接这种方法的确很简单，原理上很容易理解，实践上很难实现，在操作系统和硬件不发达的早期，绝大部分系统采用这种方案。随着计算机软件的发展，这种方法的缺点很快暴露出来了，那就是静态链接的方式对于计算机内存和磁盘空间的浪费非常严重。特别是多进程操作系统情况下，静态链接极大地浪费了内存空间。</p>
-<h3 id="7-1-2-程序开发与发布"><a href="#7-1-2-程序开发与发布" class="headerlink" title="7.1.2 程序开发与发布"></a>7.1.2 程序开发与发布</h3><p>空间浪费是静态链接的一个问题，另一个问题是静态链接对于程序的更新、部署和发布会带来很多麻烦。一旦程序中有任何一个模块更新，整个程序就需要重新连接、发布给用户。如果程序都使用静态链接，那么通过网络更新程序将会非常不便，因为一旦程序任何位置的一个小改动，都会导致整个程序重新下载。</p>
-<h3 id="7-1-3-动态链接"><a href="#7-1-3-动态链接" class="headerlink" title="7.1.3 动态链接"></a>7.1.3 动态链接</h3><p>要解决空间浪费和更新困难这两个最简单的方法就是把程序的模块相互分割开来，形成独立的文件，而不在将它们静态地链接在一起。简单来讲，就是不对那些程序的目标文件进行链接，等到程序要运行时才进行链接。也就是说，把链接这个过程推迟到了运行时再进行，这就是<strong>动态链接</strong>。</p>
-<h2 id="7-2-简单的动态链接例子"><a href="#7-2-简单的动态链接例子" class="headerlink" title="7.2 简单的动态链接例子"></a>7.2 简单的动态链接例子</h2><p>使用GCC将Lib.c文件编译成一个共享对象文件：</p>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$gcc -fPIC -shared -o Lib.so Lib.c</span><br></pre></td></tr></table></figure></div>
-
-<blockquote>
-<p>上面GCC命令中的参数”-shared“表示产生共享对象，”-fPIC“表示地址无关代码</p>
-</blockquote>
-<img  
+            <h2 id="3-1-目标文件的格式"><a href="#3-1-目标文件的格式" class="headerlink" title="3.1 目标文件的格式"></a>3.1 目标文件的格式</h2><p>目前PC平台下流行的可执行文件格式主要是Windows下的PE和Linux下的ELF，它们都是COFF格式的变种。目标文件就是源代码编译后但是未进行链接的那些中间文件，它跟可执行文件的内容与结构相似，所以一般跟可执行文件一起采用一种格式存储。</p>
+<p>不光是可执行文件按照可执行文件的格式存储，动态链接库及静态链接库文件都按照可执行文件的格式存储。静态链接库稍有不同，它是把很多目标文件捆绑在一起形成一个文件，再加上一些索引，可以简单地把它理解为一个包含多个目标文件的文件包。ELF文件标准里面把系统中采用ELF格式的文件归为一下四类：</p>
+<table>
+<thead>
+<tr>
+<th align="left">ELF文件类型</th>
+<th align="left">说明</th>
+<th align="left">实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">可重定位文件</td>
+<td align="left">这类文件包含了代码和数据，可以被用来链接成可执行文件或共享目标文件，静态链接库也可以归为这一类</td>
+<td align="left">Linux中的.o文件和Windows中的.obj文件</td>
+</tr>
+<tr>
+<td align="left">可执行文件</td>
+<td align="left">这类文件包含了可以直接执行的程序，它的代表就是ELF可执行文件，它们一般都没有扩展名</td>
+<td align="left">如&#x2F;bin&#x2F;bash文件和Windows下的.exe文件</td>
+</tr>
+<tr>
+<td align="left">目标共享文件</td>
+<td align="left">这种文件包含了代码和数据，可以在下列两种情况下使用：一种是链接器可以使用这种文件跟其他的可重定位文件和目标文件链接，产生新的目标文件，第二种是动态连接器可以将这几种目标共享文件与可执行文件结合，作为进程映像的一部分来运行</td>
+<td align="left">Linux的.so文件和Windows的.dll文件</td>
+</tr>
+<tr>
+<td align="left">核心转储文件</td>
+<td align="left">当进程意外终止时，系统可以将该进程的地址空间的内容及终止时的一些其他信息转储到核心转储文件</td>
+<td align="left">Linux下的core dump</td>
+</tr>
+</tbody></table>
+<h2 id="3-2-ELF文件是什么样的"><a href="#3-2-ELF文件是什么样的" class="headerlink" title="3.2 ELF文件是什么样的"></a>3.2 ELF文件是什么样的</h2><p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412022214307.jpg"
-                      style="zoom:67%;" 
+                     data-src="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412011720907.png"
+                     
+                ></p>
+<p>对于段的分析我们经常用到objdump这个工具，objdump的“-s”参数可以将段的内容以十六进制的方式打印出来，“-d”参数可以将所有包含指令的段反编译</p>
+<h3 id="3-2-1-代码段"><a href="#3-2-1-代码段" class="headerlink" title="3.2.1 代码段"></a>3.2.1 代码段</h3><p>包含程序的指令</p>
+<h3 id="3-2-2-数据段和只读数据段"><a href="#3-2-2-数据段和只读数据段" class="headerlink" title="3.2.2 数据段和只读数据段"></a>3.2.2 数据段和只读数据段</h3><p>.data段保存的是<b>已经初始化了的全局变量和局部静态变量</b></p>
+<p>.rodata段存放的是只读数据，一般是程序里面的只读变量（如const修饰的变量和字符串常量）</p>
+<h3 id="3-2-3-BSS段"><a href="#3-2-3-BSS段" class="headerlink" title="3.2.3 BSS段"></a>3.2.3 BSS段</h3><p>.bss段存放的是<b>未初始化的全局变量和局部静态变量</b>，更准确的说法是.bss段为它们预留的空间，在文件中不占用空间（运行时会占用）</p>
+<h3 id="3-2-4-其他段"><a href="#3-2-4-其他段" class="headerlink" title="3.2.4 其他段"></a>3.2.4 其他段</h3><table>
+<thead>
+<tr>
+<th>常用的段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.rodatal</td>
+<td>Read Only Data，这种段里存放的是只读数据，比如字符串常量，全局const变量，跟“.rodata”一样</td>
+</tr>
+<tr>
+<td>.comment</td>
+<td>存放的是编译器的版本信息</td>
+</tr>
+<tr>
+<td>.debug</td>
+<td>调试信息</td>
+</tr>
+<tr>
+<td>.dynamic</td>
+<td>动态链接信息</td>
+</tr>
+<tr>
+<td>.hash</td>
+<td>符号哈希表</td>
+</tr>
+<tr>
+<td>.line</td>
+<td>调试时的行号表</td>
+</tr>
+<tr>
+<td>.note</td>
+<td>额外的编译器信息，如程序的公司名、发布版本号等</td>
+</tr>
+<tr>
+<td>.strtab</td>
+<td>字符串表</td>
+</tr>
+<tr>
+<td>.symtab</td>
+<td>符号表</td>
+</tr>
+<tr>
+<td>.shstrtab</td>
+<td>段名表</td>
+</tr>
+<tr>
+<td>.plt和.got</td>
+<td>动态链接的跳转表和全局入口表</td>
+</tr>
+<tr>
+<td>.init和.fini</td>
+<td>程序初始化与终结代码段</td>
+</tr>
+</tbody></table>
+<h3 id="3-2-5-自定义段"><a href="#3-2-5-自定义段" class="headerlink" title="3.2.5 自定义段"></a>3.2.5 自定义段</h3><p>正常情况下GCC编译出来的目标问价中，代码会被放到“.text”段，全局变量和静态变量会被放到“.data”和”.bss”段，但是有时候需要将变量或某些代码放到制定的段中去，以实现某些特定的功能，因此GCC提供了一个扩展机制，使程序员可以制定变量所在的段。</p>
+<h2 id="3-3-ELF文件结构描述"><a href="#3-3-ELF文件结构描述" class="headerlink" title="3.3 ELF文件结构描述"></a>3.3 ELF文件结构描述</h2><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://sanbox-1332327456.cos.ap-guangzhou.myqcloud.com/pic/202412011820500.png"
+                      style="zoom:80%;" 
                 >
 
-<h2 id="7-3-地址无关代码"><a href="#7-3-地址无关代码" class="headerlink" title="7.3 地址无关代码"></a>7.3 地址无关代码</h2><h3 id="7-3-1-固定装载地址的困扰"><a href="#7-3-1-固定装载地址的困扰" class="headerlink" title="7.3.1 固定装载地址的困扰"></a>7.3.1 固定装载地址的困扰</h3><p>为了实现动态链接，我们首先会遇到的问题就是共享对象地址的冲突问题。为了解决模块装载地址固定的问题，我们可以让<strong>共享对象编译时不能假设自己在进程中虚拟地址空间中的位置。</strong>与此不同的是，可执行文件基本可以确定自己在虚拟空间中的起始位置，因为可执行文件往往是第一个被加载的文件，它可以选择一个固定空闲的地址（Linux下一般为0x08040000，windows下一般为0x0040000）</p>
-<h3 id="7-3-2-装载时重定位"><a href="#7-3-2-装载时重定位" class="headerlink" title="7.3.2 装载时重定位"></a>7.3.2 装载时重定位</h3><p>在链接时，对所有绝对地址的引用不作重定位，而把这一步推迟到装载时再完成，一旦模块装载地址确定，即目标地址确定。但是装载时重定位并不适合用来解决上面的共享对象中所存在的问题。可以想象，动态链接模块被装载映射到虚拟空间后，指令是在多个进程之间共享的，由于装载时重定位的方法需要修改指令，所以没法做到同一份指令被多个进程共享，因为指令被重定位后对每个进程来讲是不同的。</p>
-<p>GCC在产生共享对象时，如果只使用”-shared“参数，那么输出的共享对象就是使用装载时重定位的方法</p>
-<h3 id="7-3-3-地址无关代码"><a href="#7-3-3-地址无关代码" class="headerlink" title="7.3.3 地址无关代码"></a>7.3.3 地址无关代码</h3><p>装载时重定位是解决动态模块中有绝对地址引用的办法之一，但是它有一个很大的缺点是指令部分无法在多个进程之间共享。解决这个问题的基本想法就是把指令中那些需要被修改的部分分离出来，跟数据部分放在一起，这样指令部分就可以保持不变，而数据部分可以在每个进程中拥有一个副本。这种方案就是目前被称为<strong>地址无关代码</strong>的技术。</p>
-<h2 id="7-4-延迟绑定（PLT）"><a href="#7-4-延迟绑定（PLT）" class="headerlink" title="7.4 延迟绑定（PLT）"></a>7.4 延迟绑定（PLT）</h2><h3 id="延迟绑定的实现"><a href="#延迟绑定的实现" class="headerlink" title="延迟绑定的实现"></a>延迟绑定的实现</h3><p>在动态链接下，程序模块之间包含了大量的函数引用，所以在程序执行之前，动态链接会。耗费不少时间用于解决模块之间的函数引用的符号查找以及重定位。但是如果一开始就把所有函数都链接好实际上是一种浪费，所以ELF采用了一种叫<strong>延迟绑定</strong>的做法。其基本思想就是当<strong>函数第一次被用到时才进行绑定</strong>，如果没用到则不进行绑定。</p>
-<p>ELF使用<strong>PLT</strong>的方法来实现，这种方法使用了一些精巧的指令序列来完成。当我们调用某个外部模块时，如果按照通常的做法是通过GOT中相应的项进行间接跳转。PLT为了实现延迟绑定，在这个过程中间又增加了一层间接跳转。调用函数并不直接通过GOT跳转，而是通过一个叫PLT项的结构来进行跳转。每个外部函数在PLT中都有一个相应的项。</p>
-<p>在ELF文件中，GOT表通常被拆分成两个表叫做“.got”和“.got.plt”。其中“.got”用来保存全局变量引用的地址，“.got.plt”用来保存函数引用的地址，也就是说，所有对于外部函数的引用全部都被分离出来放到了“.got.plt”中。另外，“.got.plt”还有一个特殊的地方是它的前三项是有意义的，分别含义如下：</p>
+<h3 id="3-3-1-文件头（ELF-Header）"><a href="#3-3-1-文件头（ELF-Header）" class="headerlink" title="3.3.1 文件头（ELF Header）"></a>3.3.1 文件头（ELF Header）</h3><p>可以使用readelf -h + elf文件，来查看ELF头信息</p>
+<h3 id="3-3-2-段表（Section-header-table）"><a href="#3-3-2-段表（Section-header-table）" class="headerlink" title="3.3.2 段表（Section header table）"></a>3.3.2 段表（Section header table）</h3><p><b>段表</b>是保存ELF文件中各种段的基本属性的结构，如段的段名、段的长度、在文件中的偏移、读写权限以及段的其他属性。</p>
+<h3 id="3-3-3-重定位表"><a href="#3-3-3-重定位表" class="headerlink" title="3.3.3 重定位表"></a>3.3.3 重定位表</h3><p>链接器在处理目标文件时，须要对目标文件中某些部位进行重定位，即代码段和数据段中那些对绝对地址的引用的位置。这些重定位的信息都会记录在ELF文件的重定位表里，对于每个须要重定位的代码段或数据段，都会有一个相应的重定位表。如”.rel.text”就是针对“.text”的重定位表。</p>
+<h3 id="3-3-4-字符串表"><a href="#3-3-4-字符串表" class="headerlink" title="3.3.4 字符串表"></a>3.3.4 字符串表</h3><p>ELF文件中用到了很多字符串，比如段名等，因为字符串的长度往往是不固定的，所以用固定的结构表示它比较困难。一种常见的做法就是将字符串集中起来存放到一个表，然后使用字符串在表中的偏移来引用字符串。</p>
+<h2 id="3-4-链接的接口–符号"><a href="#3-4-链接的接口–符号" class="headerlink" title="3.4 链接的接口–符号"></a>3.4 链接的接口–符号</h2><p>在链接中，我们将函数和变量统称为符号，函数名或变量名就是符号名。符号表中的符号主要有以下几类：</p>
 <ul>
-<li>第一项保存的是“.dynamic”段的地址，这个段描述了本模块动态链接相关的信息；</li>
-<li>第二项保存的是本模块的ID；</li>
-<li>第三项保存的是_dl_runtime_resolve()的地址。</li>
+<li>定义在本目标文件的全局符号，可以被其他目标文件引用。</li>
+<li>在本目标中引用的全局符号，却没有定义在本目标文件，这一般叫做<b>外部符号</b></li>
+<li>段名，这种符号往往有编译器产生，它的值就是该段的起始地址</li>
+<li>局部符号，这类符号只在编译单元内部可见</li>
+<li>行号信息，即目标文件指令与源代码中代码行的对应关系</li>
 </ul>
-<p>其中第二项和第三项由动态链接器在装载共享模块的时候负责将它们初始化。“.got.plt”的其余项分别对应每个外部函数的引用</p>
-<p>PLT在ELF文件中以独立的段存放，段名通常叫做“.plt”，因为它本身是一些地址无关的代码，所以可以跟代码段一起合并成同一个可读可执行的“Segment”被装载进内存。</p>
 
         </div>
 
@@ -342,18 +431,18 @@
             <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
                 <div class="article-copyright-info-container">
     <ul>
-        <li><strong>标题:</strong> 第七章 动态链接</li>
+        <li><strong>标题:</strong> 第三章 目标文件</li>
         <li><strong>作者:</strong> Wi1lings</li>
         <li><strong>创建于
-                :</strong> 2024-12-03 15:41:45</li>
+                :</strong> 2024-12-03 15:57:27</li>
         
             <li>
                 <strong>更新于
-                    :</strong> 2024-12-03 15:53:48
+                    :</strong> 2024-12-03 16:01:30
             </li>
         
         <li>
-            <strong>链接:</strong> https://wi1lings.github.io/2024/12/03/第七章 动态链接/
+            <strong>链接:</strong> https://wi1lings.github.io/2024/12/03/第三章-目标文件/
         </li>
         <li>
             <strong>
@@ -386,14 +475,29 @@
         
             <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
                 
+                    <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2024/12/03/%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">第四章 静态链接</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
                         <a class="next"
                         rel="next"
-                        href="/2024/12/03/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6/"
+                        href="/2024/12/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%BC%96%E8%AF%91%E4%B8%8E%E9%93%BE%E6%8E%A5/"
                         >
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">第三章 目标文件</span>
+                                <span class="post-nav-title-item">第二章 编译与链接</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex justify-center items-center">
@@ -457,8 +561,8 @@
             <div class="post-toc-wrap">
     <div class="post-toc">
         <div class="toc-title">目录</div>
-        <div class="page-title">第七章 动态链接</div>
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5"><span class="nav-text">7.1 为什么要动态链接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-1-%E5%86%85%E5%AD%98%E5%92%8C%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4"><span class="nav-text">7.1.1 内存和磁盘空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-2-%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E4%B8%8E%E5%8F%91%E5%B8%83"><span class="nav-text">7.1.2 程序开发与发布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-3-%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5"><span class="nav-text">7.1.3 动态链接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-%E7%AE%80%E5%8D%95%E7%9A%84%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E4%BE%8B%E5%AD%90"><span class="nav-text">7.2 简单的动态链接例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-%E5%9C%B0%E5%9D%80%E6%97%A0%E5%85%B3%E4%BB%A3%E7%A0%81"><span class="nav-text">7.3 地址无关代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-1-%E5%9B%BA%E5%AE%9A%E8%A3%85%E8%BD%BD%E5%9C%B0%E5%9D%80%E7%9A%84%E5%9B%B0%E6%89%B0"><span class="nav-text">7.3.1 固定装载地址的困扰</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-2-%E8%A3%85%E8%BD%BD%E6%97%B6%E9%87%8D%E5%AE%9A%E4%BD%8D"><span class="nav-text">7.3.2 装载时重定位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-3-%E5%9C%B0%E5%9D%80%E6%97%A0%E5%85%B3%E4%BB%A3%E7%A0%81"><span class="nav-text">7.3.3 地址无关代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-4-%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A%EF%BC%88PLT%EF%BC%89"><span class="nav-text">7.4 延迟绑定（PLT）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">延迟绑定的实现</span></a></li></ol></li></ol>
+        <div class="page-title">第三章 目标文件</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E7%9A%84%E6%A0%BC%E5%BC%8F"><span class="nav-text">3.1 目标文件的格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-ELF%E6%96%87%E4%BB%B6%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84"><span class="nav-text">3.2 ELF文件是什么样的</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-%E4%BB%A3%E7%A0%81%E6%AE%B5"><span class="nav-text">3.2.1 代码段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-%E6%95%B0%E6%8D%AE%E6%AE%B5%E5%92%8C%E5%8F%AA%E8%AF%BB%E6%95%B0%E6%8D%AE%E6%AE%B5"><span class="nav-text">3.2.2 数据段和只读数据段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-BSS%E6%AE%B5"><span class="nav-text">3.2.3 BSS段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-4-%E5%85%B6%E4%BB%96%E6%AE%B5"><span class="nav-text">3.2.4 其他段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-5-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%AE%B5"><span class="nav-text">3.2.5 自定义段</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-ELF%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84%E6%8F%8F%E8%BF%B0"><span class="nav-text">3.3 ELF文件结构描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-%E6%96%87%E4%BB%B6%E5%A4%B4%EF%BC%88ELF-Header%EF%BC%89"><span class="nav-text">3.3.1 文件头（ELF Header）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-2-%E6%AE%B5%E8%A1%A8%EF%BC%88Section-header-table%EF%BC%89"><span class="nav-text">3.3.2 段表（Section header table）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-3-%E9%87%8D%E5%AE%9A%E4%BD%8D%E8%A1%A8"><span class="nav-text">3.3.3 重定位表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-4-%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A1%A8"><span class="nav-text">3.3.4 字符串表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E9%93%BE%E6%8E%A5%E7%9A%84%E6%8E%A5%E5%8F%A3%E2%80%93%E7%AC%A6%E5%8F%B7"><span class="nav-text">3.4 链接的接口–符号</span></a></li></ol>
 
     </div>
 </div>

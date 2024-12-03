@@ -332,23 +332,27 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2024/12/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/">
-                            第七章 动态链接
+                        <a href="/2024/12/03/%E7%AC%AC%E5%85%AB%E7%AB%A0-Linux%E5%85%B1%E4%BA%AB%E5%BA%93%E7%9A%84%E7%BB%84%E7%BB%87/">
+                            第八章-Linux共享库的组织
                         </a>
                     </h3>
 
                     <div class="home-article-content markdown-body">
                         
                             
-                            7.1 为什么要动态链接7.1.1 内存和磁盘空间静态链接这种方法的确很简单，原理上很容易理解，实践上很难实现，在操作系统和硬件不发达的早期，绝大部分系统采用这种方案。随着计算机软件的发展，这种方法的缺点很快暴露出来了，那就是静态链接的方式对于计算机内存和磁盘空间的浪费非常严重。特别是多进程操作系统情况下，静态链接极大地浪费了内存空间。
-7.1.2 程序开发与发布空间浪费是静态链接的一个问题...
+                            8.1 共享库版本8.1.1 共享库的兼容性共享库的开发者会不断地更新共享库的版本，以修正原有的Bug、增加新的功能或改进性能等。最简单的情况下，共享库的更新可以被分为两类：
+
+兼容更新。所有的更新只是在原有的共享库基础上添加一些内容，所有原有的接口都保持不变
+不兼容更新。共享库更新改变了原有的接口。使用该共享库原有接口的程序可能不能运行或者运行不正常。
+
+8.1.2 共享库版本的命名规则L...
                         
                     </div>
 
                     <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
         <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Dec 03 2024 15:41:45 GMT+0800">
+            <span class="home-article-date" data-date="Tue Dec 03 2024 16:01:04 GMT+0800">
                 
                     2024-12-03
                 
@@ -370,7 +374,7 @@
         
     </div>
 
-    <a href="/2024/12/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/">阅读全文<span class="seo-reader-text">第七章 动态链接</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2024/12/03/%E7%AC%AC%E5%85%AB%E7%AB%A0-Linux%E5%85%B1%E4%BA%AB%E5%BA%93%E7%9A%84%E7%BB%84%E7%BB%87/">阅读全文<span class="seo-reader-text">第八章-Linux共享库的组织</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -385,7 +389,169 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2024/12/03/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6/">
+                        <a href="/2024/12/03/%E7%AC%AC%E4%B8%83%E7%AB%A0-%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/">
+                            第七章-动态链接
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            7.1 为什么要动态链接7.1.1 内存和磁盘空间静态链接这种方法的确很简单，原理上很容易理解，实践上很难实现，在操作系统和硬件不发达的早期，绝大部分系统采用这种方案。随着计算机软件的发展，这种方法的缺点很快暴露出来了，那就是静态链接的方式对于计算机内存和磁盘空间的浪费非常严重。特别是多进程操作系统情况下，静态链接极大地浪费了内存空间。
+7.1.2 程序开发与发布空间浪费是静态链接的一个问题...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Tue Dec 03 2024 16:00:12 GMT+0800">
+                
+                    2024-12-03
+                
+            </span>
+        </span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fa-solid fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">程序员的自我修养</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2024/12/03/%E7%AC%AC%E4%B8%83%E7%AB%A0-%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/">阅读全文<span class="seo-reader-text">第七章-动态链接</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2024/12/03/%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E8%A3%85%E8%BD%BD%E4%B8%8E%E8%BF%9B%E7%A8%8B/">
+                            第六章 可执行文件装载与进程
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            6.1 进程虚拟地址空间6.1.1 32位linux寻址空间大致分布
+
+6.1.2 64位linux寻址空间大致分布
+
+6.2 装载的方式程序在执行时所需要的指令和数据必须在内存中才能正常运行，最简单的方法就是将程序运行所需要的指令和数据全部装入内存，这样程序就可以顺利运行，这就是最简单的装入方法。但是很多情况下程序所需要的内存数量大于实际的物理内存数量，当内存的数量不够时，根本的解决方法就...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Tue Dec 03 2024 15:59:20 GMT+0800">
+                
+                    2024-12-03
+                
+            </span>
+        </span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fa-solid fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">程序员的自我修养</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2024/12/03/%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E8%A3%85%E8%BD%BD%E4%B8%8E%E8%BF%9B%E7%A8%8B/">阅读全文<span class="seo-reader-text">第六章 可执行文件装载与进程</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2024/12/03/%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5/">
+                            第四章 静态链接
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            4.1 地址空间分配对于链接器来说，整个链接过程中，它就是将几个输入目标文件加工后合并成一个输出文件。对于多个输入目标文件，链接器如何将它们的各个段合并到输出文件？或者说，输出文件中的空间如何分配给输入文件？
+4.1.1 按序叠加一个最简单的方案就是将输入的文件按照次序叠加起来，如下图所示。但这样做会造成一个问题，在有很多输入文件的情况下，输出文件会有很多零散的段。这种做法非常浪费空间，因为...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Tue Dec 03 2024 15:58:24 GMT+0800">
+                
+                    2024-12-03
+                
+            </span>
+        </span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fa-solid fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">程序员的自我修养</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2024/12/03/%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5/">阅读全文<span class="seo-reader-text">第四章 静态链接</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2024/12/03/%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6/">
                             第三章 目标文件
                         </a>
                     </h3>
@@ -401,7 +567,7 @@
                     <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
         <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Dec 03 2024 15:41:45 GMT+0800">
+            <span class="home-article-date" data-date="Tue Dec 03 2024 15:57:27 GMT+0800">
                 
                     2024-12-03
                 
@@ -423,7 +589,7 @@
         
     </div>
 
-    <a href="/2024/12/03/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6/">阅读全文<span class="seo-reader-text">第三章 目标文件</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2024/12/03/%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6/">阅读全文<span class="seo-reader-text">第三章 目标文件</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -438,7 +604,7 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2024/12/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E7%BC%96%E8%AF%91%E4%B8%8E%E9%93%BE%E6%8E%A5/">
+                        <a href="/2024/12/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%BC%96%E8%AF%91%E4%B8%8E%E9%93%BE%E6%8E%A5/">
                             第二章 编译与链接
                         </a>
                     </h3>
@@ -462,7 +628,7 @@
                     <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
         <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Dec 03 2024 15:41:45 GMT+0800">
+            <span class="home-article-date" data-date="Tue Dec 03 2024 15:56:03 GMT+0800">
                 
                     2024-12-03
                 
@@ -484,173 +650,7 @@
         
     </div>
 
-    <a href="/2024/12/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E7%BC%96%E8%AF%91%E4%B8%8E%E9%93%BE%E6%8E%A5/">阅读全文<span class="seo-reader-text">第二章 编译与链接</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2024/12/03/%E7%AC%AC%E5%85%AB%E7%AB%A0%20Linux%E5%85%B1%E4%BA%AB%E5%BA%93%E7%9A%84%E7%BB%84%E7%BB%87/">
-                            第八章 Linux共享库的组织
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            8.1 共享库版本8.1.1 共享库的兼容性共享库的开发者会不断地更新共享库的版本，以修正原有的Bug、增加新的功能或改进性能等。最简单的情况下，共享库的更新可以被分为两类：
-
-兼容更新。所有的更新只是在原有的共享库基础上添加一些内容，所有原有的接口都保持不变
-不兼容更新。共享库更新改变了原有的接口。使用该共享库原有接口的程序可能不能运行或者运行不正常。
-
-8.1.2 共享库版本的命名规则L...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Dec 03 2024 15:41:45 GMT+0800">
-                
-                    2024-12-03
-                
-            </span>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">程序员的自我修养</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2024/12/03/%E7%AC%AC%E5%85%AB%E7%AB%A0%20Linux%E5%85%B1%E4%BA%AB%E5%BA%93%E7%9A%84%E7%BB%84%E7%BB%87/">阅读全文<span class="seo-reader-text">第八章 Linux共享库的组织</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2024/12/03/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E8%A3%85%E8%BD%BD%E4%B8%8E%E8%BF%9B%E7%A8%8B/">
-                            第六章 可执行文件的装载与进程
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            6.1 进程虚拟地址空间6.1.1 32位linux寻址空间大致分布
-
-6.1.2 64位linux寻址空间大致分布
-
-6.2 装载的方式程序在执行时所需要的指令和数据必须在内存中才能正常运行，最简单的方法就是将程序运行所需要的指令和数据全部装入内存，这样程序就可以顺利运行，这就是最简单的装入方法。但是很多情况下程序所需要的内存数量大于实际的物理内存数量，当内存的数量不够时，根本的解决方法就...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Dec 03 2024 15:41:45 GMT+0800">
-                
-                    2024-12-03
-                
-            </span>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">程序员的自我修养</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2024/12/03/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E8%A3%85%E8%BD%BD%E4%B8%8E%E8%BF%9B%E7%A8%8B/">阅读全文<span class="seo-reader-text">第六章 可执行文件的装载与进程</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2024/12/03/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5/">
-                            第四章 静态链接
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            4.1 地址空间分配对于链接器来说，整个链接过程中，它就是将几个输入目标文件加工后合并成一个输出文件。对于多个输入目标文件，链接器如何将它们的各个段合并到输出文件？或者说，输出文件中的空间如何分配给输入文件？
-4.1.1 按序叠加一个最简单的方案就是将输入的文件按照次序叠加起来，如下图所示。但这样做会造成一个问题，在有很多输入文件的情况下，输出文件会有很多零散的段。这种做法非常浪费空间，因为...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Dec 03 2024 15:41:45 GMT+0800">
-                
-                    2024-12-03
-                
-            </span>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">程序员的自我修养</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2024/12/03/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5/">阅读全文<span class="seo-reader-text">第四章 静态链接</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2024/12/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%BC%96%E8%AF%91%E4%B8%8E%E9%93%BE%E6%8E%A5/">阅读全文<span class="seo-reader-text">第二章 编译与链接</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
