@@ -26,7 +26,7 @@
 <meta property="og:description" content="1、函数调用约定 调用约定规范了函数之间调用的方式、参数如何传递、返回值如何传递、栈由谁来平衡。常用的调用约定如下：  __cdecl* __cdecl调用约定又称为C调用约定，是C&#x2F;C++语言缺省的调用约定。参数按照从右往左的方式入栈，函数本身不清了栈，此工作由调用栈负责，返回值在EAX中。由于由调用者清栈，所以允许可变参数函数存在  __stdcall __stdcall很多时候被称">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-04T09:49:46.000Z">
-<meta property="article:modified_time" content="2024-12-04T09:50:30.313Z">
+<meta property="article:modified_time" content="2024-12-04T11:55:07.557Z">
 <meta property="article:author" content="Wi1lings">
 <meta property="article:tag" content="pwn基础">
 <meta name="twitter:card" content="summary">
@@ -264,8 +264,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-12-04 17:50:30</span>
-            <span class="mobile">2024-12-04 17:50:30</span>
+            <span class="desktop">2024-12-04 19:55:07</span>
+            <span class="mobile">2024-12-04 19:55:07</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -315,6 +315,11 @@
 <p>顾名思义，__fastcall的特点就是快，因为它通过CPU寄存器来传递参数。他用ECX和EDX传递前两个双字（DWORD）或更小的参数，剩下的参数按照从右往左的方式入栈，函数自身清理堆栈，返回值在EAX中。</p>
 </li>
 </ul>
+<h2 id="2、保护措施"><a href="#2、保护措施" class="headerlink" title="2、保护措施"></a>2、保护措施</h2><h3 id="2-1、PIE"><a href="#2-1、PIE" class="headerlink" title="2.1、PIE"></a>2.1、PIE</h3><p>在二进制漏洞利用中地址是一个很重要的参量，在没有开启任何保护的情况下，程序会被加载到一个固定的地址上。为了增大攻击者定位内存数据的难度，编译器提供PIE保护选项。开启时，程序会胡乱加载到内存随机的位置，并且这个位置只有操作系统才知道。如此攻击者想要定位内存数据就比较困难了。</p>
+<h3 id="2-2、NX"><a href="#2-2、NX" class="headerlink" title="2.2、NX"></a>2.2、NX</h3><p>NX通过修改段的权限设置，将没有必要的权限移除，例如数据段不需要可执行权限、代码段不需要可写权限，如此攻击者就不能随意劫持程序流，或者修改已经存在的代码。</p>
+<h3 id="2-3、Canary"><a href="#2-3、Canary" class="headerlink" title="2.3、Canary"></a>2.3、Canary</h3><p>canary就是在ebp的位置上方插入一条独特的数据，这个数据是不可预测的。在执行某些重要操作之前首先检查这个数据是否被改动，如果被改动了，进程就会直接退出。</p>
+<h2 id="3、一些常见的ASCII字符机器作用"><a href="#3、一些常见的ASCII字符机器作用" class="headerlink" title="3、一些常见的ASCII字符机器作用"></a>3、一些常见的ASCII字符机器作用</h2><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">NULL Byte (\x00):</span><br><span class="line">    通常用于字符串的终止。</span><br><span class="line">    在某些情况下，可能会用来截断输入，例如在栈溢出中用来停止对返回地址的覆盖。</span><br><span class="line">Newline (\n, \xA):</span><br><span class="line">    常用于结束一行输入，特别是在处理命令行输入或读取文件时。</span><br><span class="line">Space (\x20):</span><br><span class="line">    常用于填充或分隔字符串。</span><br><span class="line">CAN (\x18):</span><br><span class="line">    取消或终止某一操作的意思，可用于栈溢出绕过</span><br><span class="line">NOP (\x90):</span><br><span class="line">    NOP sled的一部分，允许执行流平滑地滑到shellcode或其他ROP gadgets。</span><br><span class="line">INT 80h (\xcd\x80):</span><br><span class="line">    在x86架构中，用于触发一个系统调用。</span><br><span class="line">JMP (\xeb) 和 JMP SHORT 指令:</span><br><span class="line">        用于跳转到ROP链中的下一个gadget。</span><br><span class="line"> RET (\xc3):</span><br><span class="line">        用于返回到调用者，经常用于ROP链中。</span><br><span class="line">POP instructions (\x58, \x5a, \x59, …):</span><br><span class="line">        用于从栈中弹出值到寄存器，是ROP攻击中常见的gadget。</span><br><span class="line">INT 80h (\xcd\x80):</span><br><span class="line">    在x86架构中，用于触发一个系统调用</span><br><span class="line">PUSH instructions (\x50, \x52, \x51, …):</span><br><span class="line">        用于将值推入栈，有时在构造ROP链时有用。</span><br><span class="line">Sub (\x1A):</span><br><span class="line">    在某些程序中，可能被用作控制字符，比如停止打印。</span><br><span class="line">Escape (\x1B):</span><br><span class="line">    用于生成ANSI转义序列，可以改变终端的行为。</span><br></pre></td></tr></table></figure></div>
+
 
         </div>
 
@@ -329,7 +334,7 @@
         
             <li>
                 <strong>更新于
-                    :</strong> 2024-12-04 17:50:30
+                    :</strong> 2024-12-04 19:55:07
             </li>
         
         <li>
@@ -438,7 +443,7 @@
     <div class="post-toc">
         <div class="toc-title">目录</div>
         <div class="page-title">栈溢出基础</div>
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E7%BA%A6%E5%AE%9A"><span class="nav-text">1、函数调用约定</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E7%BA%A6%E5%AE%9A"><span class="nav-text">1、函数调用约定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E4%BF%9D%E6%8A%A4%E6%8E%AA%E6%96%BD"><span class="nav-text">2、保护措施</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E3%80%81PIE"><span class="nav-text">2.1、PIE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E3%80%81NX"><span class="nav-text">2.2、NX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3%E3%80%81Canary"><span class="nav-text">2.3、Canary</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E4%B8%80%E4%BA%9B%E5%B8%B8%E8%A7%81%E7%9A%84ASCII%E5%AD%97%E7%AC%A6%E6%9C%BA%E5%99%A8%E4%BD%9C%E7%94%A8"><span class="nav-text">3、一些常见的ASCII字符机器作用</span></a></li></ol>
 
     </div>
 </div>
